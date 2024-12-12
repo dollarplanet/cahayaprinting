@@ -11,7 +11,7 @@ export const Home: GlobalConfig = {
   },
   admin: {
     livePreview: {
-      url: "http://localhost:3000?preview=true",
+      url: process.env.NEXT_PUBLIC_SERVER_URL + "?preview=true",
     },
   },
   fields: [
