@@ -3,17 +3,11 @@ import { User } from '@/payload-types'
 import type { Access, CollectionConfig, FieldAccess } from 'payload'
 
 const isAdminAndSelf: Access<User> = ({ req: { user }, data }) => {
-  if (!user) return false;
-  if (user.email === data?.email) return true;
-  if (user.role === "admin") return true;
-  return false;
+  return (user?.email === data?.email) || (user?.role === "admin");
 }
 
 const isAdminAndSelfField: FieldAccess<User> = ({ req: { user }, doc }) => {
-  if (!user) return false;
-  if (user.email === doc?.email) return true;
-  if (user.role === "admin") return true;
-  return false;
+  return (user?.email === doc?.email) || (user?.role === "admin");
 }
 
 export const Users: CollectionConfig = {
