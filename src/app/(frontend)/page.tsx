@@ -1,7 +1,10 @@
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { Media } from "@/payload-types";
 import payloadConfig from "@/payload.config";
+import { currentSession } from "@/utils/current-session";
+import { isPreview } from "@/utils/is-preview";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { headers } from "next/headers";
 import Image from "next/image";
 import { getPayload } from "payload";
 
@@ -9,7 +12,14 @@ export const revalidate = 0;
 
 const Page: NextServerPage = async ({searchParams}) => {
   const payload = await getPayload({ config: payloadConfig });
-  const draftEnabled = (await searchParams).preview === "true";
+  const heads = await headers();
+  const draftEnabled = await isPreview({
+    auth: {
+      payload,
+      headers: heads,
+    },
+    searchParams,
+  });
 
   const data = await payload.findGlobal({
     slug: "home",
