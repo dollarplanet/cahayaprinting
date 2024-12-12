@@ -227,24 +227,29 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Home {
   id: number;
-  logo?: (number | null) | Media;
-  title: string;
-  description: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
+  company?: {
+    logo?: (number | null) | Media;
+    name?: string | null;
   };
-  heroImage?: (number | null) | Media;
+  heroContent: {
+    heroImage?: (number | null) | Media;
+    description: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    };
+    buttonTitle: string;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -254,10 +259,19 @@ export interface Home {
  * via the `definition` "home_select".
  */
 export interface HomeSelect<T extends boolean = true> {
-  logo?: T;
-  title?: T;
-  description?: T;
-  heroImage?: T;
+  company?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+      };
+  heroContent?:
+    | T
+    | {
+        heroImage?: T;
+        description?: T;
+        buttonTitle?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

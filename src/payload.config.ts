@@ -36,8 +36,8 @@ export default buildConfig({
   sharp,
   upload: {
     limits: {
-      fileSize: 5 * 1024 * 1024,
-    }
+      fileSize: 1 * 1024 * 1024,
+    },
   },
   plugins: [
     payloadCloudPlugin(),
