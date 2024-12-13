@@ -37,10 +37,10 @@ export const Media: CollectionConfig = {
     mimeTypes: ["image/*"],
     adminThumbnail: "thumbnail",
     formatOptions: {
-      format: "jpeg",
+      format: "webp",
       options: {
-        compression: "jpeg",
         quality: 60,
+        compression: "webp"
       }
     },
     resizeOptions: {
@@ -51,10 +51,10 @@ export const Media: CollectionConfig = {
       {
         name: "thumbnail",
         formatOptions: {
-          format: "jpeg",
+          format: "webp",
           options: {
             quality: 40,
-            compression: "jpeg",
+            compression: "webp"
           }
         },
         width: 200,
