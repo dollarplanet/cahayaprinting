@@ -1,4 +1,5 @@
 import { isAdminOrEditor } from "@/accesses/is-admin-or-editor";
+import { ButtonTitleField } from "@/fields/button-title-field";
 import { TitleField } from "@/fields/title-field";
 import { versionConfig } from "@/utils/version-config";
 import { CollectionConfig, GlobalConfig, } from "payload";
@@ -56,9 +57,21 @@ export const Home: GlobalConfig = {
                 {
                   name: "buttonTitle",
                   type: "text",
-                  required: true,
                 },
               ]
+            }
+          ]
+        },
+        {
+          label: "Featured",
+          fields: [
+            {
+              type: "richText",
+              name: "featuredDescription",              
+            },
+            {
+              name: "featuredButtonTittle",
+              type: "text",
             }
           ]
         }

@@ -248,8 +248,24 @@ export interface Home {
       };
       [k: string]: unknown;
     };
-    buttonTitle: string;
+    buttonTitle?: string | null;
   };
+  featuredDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  featuredButtonTittle?: string | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -272,6 +288,8 @@ export interface HomeSelect<T extends boolean = true> {
         description?: T;
         buttonTitle?: T;
       };
+  featuredDescription?: T;
+  featuredButtonTittle?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;

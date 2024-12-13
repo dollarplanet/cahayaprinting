@@ -28,7 +28,6 @@ export const Users: CollectionConfig = {
       name: "role",
       type: "select",
       required: true,
-      defaultValue: "editor",
       access: {
         read: isAdminAndSelfField,
         update: isAdminField,

@@ -10,7 +10,7 @@ import { getPayload } from "payload";
 
 export const revalidate = 0;
 
-const Page: NextServerPage = async ({searchParams}) => {
+const Page: NextServerPage = async ({ searchParams }) => {
   const payload = await getPayload({ config: payloadConfig });
   const heads = await headers();
   const draftEnabled = await isPreview({
@@ -29,13 +29,14 @@ const Page: NextServerPage = async ({searchParams}) => {
   return (
     <>
       <LivePreviewTrigger />
+
       <div className="relative">
         <header className="fixed backdrop-blur inset-x-0 top-0 z-10 w-full bg-white/30">
           <div className="px-4 mx-auto sm:px-6 lg:px-8">
             <div className="flex items-center justify-between h-16 lg:h-20">
               <div className="flex-shrink-0">
                 <a href="#" title="" className="flex gap-2">
-                  {Boolean(data?.company?.logo) && <Image width={0} height={0} className="w-auto h-8" src={(data.company?.logo as Media).url!} alt="" />}
+                  {Boolean(data.company?.logo) && <Image width={0} height={0} className="w-auto h-8" src={(data.company?.logo as Media).url!} alt="" />}
                   <p className="text-2xl font-bold">{data.company?.name}</p>
                 </a>
               </div>
@@ -61,19 +62,45 @@ const Page: NextServerPage = async ({searchParams}) => {
                 <Image width={0} height={0} className="object-contain w-auto h-48" src="/images/curved-lines.png" alt="" />
               </div>
               <div className="relative px-4 pt-24 pb-16 text-center sm:px-6 md:px-24 2xl:px-32 lg:py-24 lg:text-left">
-                <RichText className="prose prose-lg" data={data?.heroContent?.description} />
-                <a href="#" title="" className="sticky top-0 left-0 inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{data.heroContent.buttonTitle}</a>
+                <RichText className="prose prose-lg" data={data.heroContent?.description} />
+                {Boolean(data.heroContent.buttonTitle) && <a href="#" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{data.heroContent.buttonTitle}</a>}
               </div>
             </div>
             {Boolean(data.heroContent?.heroImage) && <div className="relative w-full overflow-hidden lg:order-1 h-96 lg:h-auto lg:w-5/12">
               <div className="absolute inset-0">
                 <Image width={0} height={0} className="object-cover w-full h-full scale-150" src={(data.heroContent?.heroImage as Media).url!} alt="" />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent"></div>          
             </div>}
           </div>
         </section>
       </div>
+
+      <section className="py-10 bg-white sm:py-16 lg:py-24">
+        <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+          <div className="max-w-3xl mx-auto text-center">
+            {Boolean(data.featuredDescription) && <RichText className="prose prose-lg" data={data.featuredDescription!} />}
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-3 md:mt-16 lg:gap-x-12">
+            <div>
+              <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-1.jpg" alt="" />
+            </div>
+
+            <div>
+              <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-2.jpg" alt="" />
+            </div>
+
+            <div>
+              <img className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-3.jpg" alt="" />
+            </div>
+          </div>
+
+          {Boolean(data.featuredButtonTittle) && <div className="text-center">
+            <a href="#" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{data.featuredButtonTittle}</a>
+          </div>}
+        </div>
+      </section>
+
     </>
   );
 }
