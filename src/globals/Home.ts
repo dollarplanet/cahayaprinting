@@ -74,6 +74,35 @@ export const Home: GlobalConfig = {
               type: "text",
             }
           ]
+        },
+        {
+          label: "Testimonials",
+          fields: [
+            {
+              type: "text",
+              name: "testimonialsTitle",
+            },
+            {
+              type: "array",
+              name: "testimonials",
+              fields: [
+                {
+                  type: "textarea",
+                  name: "description",
+                  required: true,
+                },
+                {
+                  type: "text",
+                  name: "name",
+                  required: true,
+                },
+                {
+                  type: "text",
+                  name: "company",
+                }
+              ]
+            }
+          ]
         }
       ]
     },

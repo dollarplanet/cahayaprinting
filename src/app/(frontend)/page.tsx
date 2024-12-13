@@ -1,4 +1,5 @@
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
+import { Testimonial } from "@/components/testimonial";
 import { Media } from "@/payload-types";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utils/current-session";
@@ -75,7 +76,7 @@ const Page: NextServerPage = async ({ searchParams }) => {
         </section>
       </div>
 
-      <section className="py-10 bg-white sm:py-16 lg:py-24">
+      <section className="pt-10 bg-white sm:pt-16 lg:pt-24 pb-16">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
           <div className="max-w-3xl mx-auto text-center">
             {Boolean(data.featuredDescription) && <RichText className="prose prose-lg" data={data.featuredDescription!} />}
@@ -100,6 +101,21 @@ const Page: NextServerPage = async ({ searchParams }) => {
           </div>}
         </div>
       </section>
+
+      {Boolean(data.testimonials) && (data.testimonials!.length > 0) && <section className="bg-orange-500 w-full py-16">
+
+        <div className="w-full flex justify-center text-center text-white">
+          <h2 className="font-bold text-3xl">{data.testimonialsTitle}</h2>
+        </div>
+
+        <div className="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8 mt-8">
+          <div className="grid grid-cols-1 gap-6 lg:gap-10 sm:grid-cols-2 md:grid-cols-3">
+            {data.testimonials!.map((testimonial, index) => (
+              <Testimonial key={index} description={testimonial.description} name={testimonial.name} company={testimonial.company} />
+            ))}
+          </div>
+        </div>
+      </section>}
 
     </>
   );

@@ -266,6 +266,15 @@ export interface Home {
     [k: string]: unknown;
   } | null;
   featuredButtonTittle?: string | null;
+  testimonialsTitle?: string | null;
+  testimonials?:
+    | {
+        description: string;
+        name: string;
+        company?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -290,6 +299,15 @@ export interface HomeSelect<T extends boolean = true> {
       };
   featuredDescription?: T;
   featuredButtonTittle?: T;
+  testimonialsTitle?: T;
+  testimonials?:
+    | T
+    | {
+        description?: T;
+        name?: T;
+        company?: T;
+        id?: T;
+      };
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
