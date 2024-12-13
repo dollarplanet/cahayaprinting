@@ -4,6 +4,9 @@ export const Products: CollectionConfig = {
   slug: "products",
   admin: {
     useAsTitle: "name",
+    livePreview: {      
+      url: process.env.NEXT_PUBLIC_SERVER_URL + "/preview/product",
+    }
   },
   fields: [
     {
@@ -18,19 +21,19 @@ export const Products: CollectionConfig = {
       required: true,
     },
     {
+      type: "relationship",
+      name: "category",
+      relationTo: "categories",
+      hasMany: true,
+      minRows: 1,
+      required: true,
+    },
+    {
       type: "tabs",
       tabs: [
         {
           name: "detail",
           fields: [
-            {
-              type: "relationship",
-              name: "category",
-              relationTo: "categories",
-              hasMany: true,
-              minRows: 1,
-              required: true,
-            },
             {
               name: "price",
               type: "number",

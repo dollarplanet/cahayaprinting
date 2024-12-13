@@ -43,6 +43,7 @@ export const Users: CollectionConfig = {
           value: "editor",
         }
       ],
+      defaultValue: "editor"
     },
   ],
 }

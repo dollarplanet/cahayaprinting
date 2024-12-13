@@ -139,8 +139,8 @@ export interface Product {
   id: number;
   thumbnail?: (number | null) | Media;
   name: string;
+  category: (number | Category)[];
   detail: {
-    category: (number | Category)[];
     price: number;
     sku?: string | null;
   };
@@ -287,10 +287,10 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   thumbnail?: T;
   name?: T;
+  category?: T;
   detail?:
     | T
     | {
-        category?: T;
         price?: T;
         sku?: T;
       };

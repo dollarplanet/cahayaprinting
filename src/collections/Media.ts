@@ -7,7 +7,7 @@ export const Media: CollectionConfig = {
   },
   hooks: {
     beforeChange: [
-      async ({operation, req: {payload, file}}) => {
+      async ({operation, req: {payload, file}, data}) => {
         // Hanya boleh gambar
         if (!file?.mimetype.includes("image/")) {
           throw new Error("Unsupported media")
@@ -23,6 +23,8 @@ export const Media: CollectionConfig = {
             throw new Error("Maximum number of images reached")
           }
         }
+
+        return data;
       }
     ]
   },
