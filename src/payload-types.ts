@@ -138,6 +138,7 @@ export interface Category {
 export interface Product {
   id: number;
   thumbnail?: (number | null) | Media;
+  slug?: string | null;
   name: string;
   category: (number | Category)[];
   detail: {
@@ -145,16 +146,32 @@ export interface Product {
     sku?: string | null;
   };
   specification?: {
-    specifications?:
+    description?: {
+      root: {
+        type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
+      };
+      [k: string]: unknown;
+    } | null;
+    featureTitle?: string | null;
+    features?:
       | {
           name: string;
-          value: string;
           id?: string | null;
         }[]
       | null;
   };
   updatedAt: string;
   createdAt: string;
+  _status?: ('draft' | 'published') | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -286,6 +303,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  */
 export interface ProductsSelect<T extends boolean = true> {
   thumbnail?: T;
+  slug?: T;
   name?: T;
   category?: T;
   detail?:
@@ -297,16 +315,18 @@ export interface ProductsSelect<T extends boolean = true> {
   specification?:
     | T
     | {
-        specifications?:
+        description?: T;
+        featureTitle?: T;
+        features?:
           | T
           | {
               name?: T;
-              value?: T;
               id?: T;
             };
       };
   updatedAt?: T;
   createdAt?: T;
+  _status?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -346,13 +366,33 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Home {
   id: number;
-  company?: {
-    logo?: (number | null) | Media;
-    name?: string | null;
+  hero: {
+    company?: {
+      logo?: (number | null) | Media;
+      name?: string | null;
+    };
+    content: {
+      image?: (number | null) | Media;
+      description: {
+        root: {
+          type: string;
+          children: {
+            type: string;
+            version: number;
+            [k: string]: unknown;
+          }[];
+          direction: ('ltr' | 'rtl') | null;
+          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+          indent: number;
+          version: number;
+        };
+        [k: string]: unknown;
+      };
+      buttonTitle?: string | null;
+    };
   };
-  heroContent: {
-    heroImage?: (number | null) | Media;
-    description: {
+  featured?: {
+    description?: {
       root: {
         type: string;
         children: {
@@ -366,57 +406,45 @@ export interface Home {
         version: number;
       };
       [k: string]: unknown;
-    };
+    } | null;
     buttonTitle?: string | null;
   };
-  featuredDescription?: {
-    root: {
-      type: string;
-      children: {
+  testimonials?: {
+    title?: string | null;
+    testimonials?:
+      | {
+          description: string;
+          name: string;
+          company?: string | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  questions?: {
+    description?: {
+      root: {
         type: string;
+        children: {
+          type: string;
+          version: number;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
         version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  featuredButtonTittle?: string | null;
-  testimonialsTitle?: string | null;
-  testimonials?:
-    | {
-        description: string;
-        name: string;
-        company?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  questionsDescription?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  questionAlternativeText?: string | null;
-  questions?:
-    | {
-        question: string;
-        answer: string;
-        id?: string | null;
-      }[]
-    | null;
+      };
+      [k: string]: unknown;
+    } | null;
+    altText?: string | null;
+    questions?:
+      | {
+          question: string;
+          answer: string;
+          id?: string | null;
+        }[]
+      | null;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -426,38 +454,54 @@ export interface Home {
  * via the `definition` "home_select".
  */
 export interface HomeSelect<T extends boolean = true> {
-  company?:
+  hero?:
     | T
     | {
-        logo?: T;
-        name?: T;
+        company?:
+          | T
+          | {
+              logo?: T;
+              name?: T;
+            };
+        content?:
+          | T
+          | {
+              image?: T;
+              description?: T;
+              buttonTitle?: T;
+            };
       };
-  heroContent?:
+  featured?:
     | T
     | {
-        heroImage?: T;
         description?: T;
         buttonTitle?: T;
       };
-  featuredDescription?: T;
-  featuredButtonTittle?: T;
-  testimonialsTitle?: T;
   testimonials?:
     | T
     | {
-        description?: T;
-        name?: T;
-        company?: T;
-        id?: T;
+        title?: T;
+        testimonials?:
+          | T
+          | {
+              description?: T;
+              name?: T;
+              company?: T;
+              id?: T;
+            };
       };
-  questionsDescription?: T;
-  questionAlternativeText?: T;
   questions?:
     | T
     | {
-        question?: T;
-        answer?: T;
-        id?: T;
+        description?: T;
+        altText?: T;
+        questions?:
+          | T
+          | {
+              question?: T;
+              answer?: T;
+              id?: T;
+            };
       };
   _status?: T;
   updatedAt?: T;

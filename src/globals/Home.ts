@@ -20,7 +20,7 @@ export const Home: GlobalConfig = {
       type: "tabs",
       tabs: [
         {
-          label: "Hero",
+          name: "hero",
           fields: [
             {
               type: "group",
@@ -39,10 +39,10 @@ export const Home: GlobalConfig = {
             },
             {
               type: "group",
-              name: "heroContent",
+              name: "content",
               fields: [
                 {
-                  name: "heroImage",
+                  name: "image",
                   type: "upload",
                   relationTo: "media",
                 },
@@ -60,24 +60,24 @@ export const Home: GlobalConfig = {
           ]
         },
         {
-          label: "Featured",
+          name: "featured",
           fields: [
             {
               type: "richText",
-              name: "featuredDescription",
+              name: "description",
             },
             {
-              name: "featuredButtonTittle",
+              name: "buttonTitle",
               type: "text",
             }
           ]
         },
         {
-          label: "Testimonials",
+          name: "testimonials",
           fields: [
             {
               type: "text",
-              name: "testimonialsTitle",
+              name: "title",
             },
             {
               type: "array",
@@ -102,15 +102,15 @@ export const Home: GlobalConfig = {
           ]
         },
         {
-          label: "Questions",
+          name: "questions",
           fields: [
             {
               type: "richText",
-              name: "questionsDescription",
+              name: "description",
             },
             {
               type: "text",
-              name: "questionAlternativeText",
+              name: "altText",
             },
             {
               type: "array",
