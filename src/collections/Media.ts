@@ -5,6 +5,27 @@ export const Media: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: {
+    beforeChange: [
+      async ({operation, req: {payload, file}}) => {
+        // Hanya boleh gambar
+        if (!file?.mimetype.includes("image/")) {
+          throw new Error("Unsupported media")
+        }
+
+        // Batasi jumlah gambar
+        if (operation === "create") {
+          const count = await payload.count({
+            collection: "media"
+          })
+
+          if (count.totalDocs >= parseInt(process.env.MAX_MEDIA_COUNT!)) {
+            throw new Error("Maximum number of images reached")
+          }
+        }
+      }
+    ]
+  },
   fields: [
     {
       name: 'alt',
@@ -13,6 +34,7 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
+    mimeTypes: ["image/*"],
     adminThumbnail: "thumbnail",
     formatOptions: {
       format: "jpeg",
