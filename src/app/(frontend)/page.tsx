@@ -4,7 +4,6 @@ import { Testimonial } from "@/components/testimonial";
 import { Media } from "@/payload-types";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utils/current-session";
-import { isPreview } from "@/utils/is-preview";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { headers } from "next/headers";
 import Image from "next/image";
@@ -14,14 +13,16 @@ export const revalidate = 0;
 
 const Page: NextServerPage = async ({ searchParams }) => {
   const payload = await getPayload({ config: payloadConfig });
-  const heads = await headers();
-  const draftEnabled = await isPreview({
-    auth: {
+  let draftEnabled = false;
+
+  if ((await searchParams).preview === "true") {
+    const session = await currentSession({
       payload,
-      headers: heads,
-    },
-    searchParams,
-  });
+      headers: await headers(),
+    });
+
+    draftEnabled = session.user !== null;
+  }
 
   const data = await payload.findGlobal({
     slug: "home",
@@ -38,7 +39,7 @@ const Page: NextServerPage = async ({ searchParams }) => {
             <div className="flex items-center justify-between h-16 lg:h-20">
               <div className="flex-shrink-0">
                 <a href="#" title="" className="flex gap-2">
-                  {Boolean(data.company?.logo) && <Image width={0} height={0} className="w-auto h-8" src={(data.company?.logo as Media).url!} alt="" />}
+                  {Boolean(data.company?.logo) && <Image width={0} height={0} className="w-auto h-8" src={(data.company?.logo as Media).thumbnailURL!} alt="" />}
                   <p className="text-2xl font-bold">{data.company?.name}</p>
                 </a>
               </div>

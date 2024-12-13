@@ -10,6 +10,8 @@ import sharp from 'sharp'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Home } from './globals/Home'
+import { Categories } from './collections/Categories'
+import { Products } from './collections/Products'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -21,7 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, Media, Categories, Products],
   globals: [Home],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
@@ -33,11 +35,14 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  sharp,
+  sharp: sharp,
   upload: {
+    safeFileNames: true,
     limits: {
-      fileSize: 1 * 1024 * 1024,
+      fileSize: 7 * 1024 * 1024,      
     },
+    abortOnLimit: true,
+    responseOnLimit: 'File is too large',
   },
   plugins: [
     payloadCloudPlugin(),
