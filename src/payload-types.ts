@@ -290,6 +290,7 @@ export interface Home {
     };
     [k: string]: unknown;
   } | null;
+  questionAlternativeText?: string | null;
   questions?:
     | {
         question: string;
@@ -331,6 +332,7 @@ export interface HomeSelect<T extends boolean = true> {
         id?: T;
       };
   questionsDescription?: T;
+  questionAlternativeText?: T;
   questions?:
     | T
     | {

@@ -1,3 +1,32 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* ACCORDION */
+
+.accordion-panel {
+  max-height: 0px;
+  overflow: clip;
+  padding: 0px;
+  transition: padding 300ms;
+}
+
+.accordion-input {
+  display: none;
+}
+
+.accordion-icon {
+  transform: rotate(0deg);
+}
+
+.accordion-input:checked {
+  ~.accordion-panel {
+    max-height: 10000px;
+    padding: 2rem;
+    padding-top: 0;
+  }
+
+  ~.accordion-icon {
+    transform: rotate(180deg);
+  }
+}

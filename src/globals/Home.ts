@@ -109,6 +109,10 @@ export const Home: GlobalConfig = {
               name: "questionsDescription",
             },
             {
+              type: "text",
+              name: "questionAlternativeText",
+            },
+            {
               type: "array",
               name: "questions",
               fields: [
