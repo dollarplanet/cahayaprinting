@@ -76,10 +76,10 @@ const Page: NextServerPage = async ({ searchParams }) => {
         </section>
       </div>
 
-      <section className="pt-10 bg-white sm:pt-16 lg:pt-24 pb-16">
+      <section className="py-16 bg-white">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
-          <div className="max-w-3xl mx-auto text-center">
-            {Boolean(data.featuredDescription) && <RichText className="prose prose-lg" data={data.featuredDescription!} />}
+          <div className="w-full flex justify-center mx-auto text-center">
+            {Boolean(data.featuredDescription) && <RichText className="prose prose-lg w-full" data={data.featuredDescription!} />}
           </div>
 
           <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-3 md:mt-16 lg:gap-x-12">
@@ -116,6 +116,76 @@ const Page: NextServerPage = async ({ searchParams }) => {
           </div>
         </div>
       </section>}
+
+      <section className="py-16 bg-gray-50">
+        <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
+          {Boolean(data.questionsDescription) && <div className="w-full flex justify-center mx-auto text-center mb-8">
+            <RichText className="prose prose-lg w-full" data={data.questionsDescription!} />
+          </div>}
+
+          <div className="max-w-3xl mx-auto space-y-4">
+            <div className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50">
+              <button type="button" className="flex items-center justify-between w-full px-4 py-5 sm:p-6">
+                <span className="flex text-lg font-semibold text-black"> How to create an account? </span>
+
+                <svg className="w-6 h-6 text-gray-400 rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div className="px-4 pb-5 sm:px-6 sm:pb-6">
+                <p>Amet minim mollit non deserunt ullamco est sit <a href="#" title="" className="text-blue-600 transition-all duration-200 hover:underline">aliqua dolor</a> do amet sint. Velit officia consequat duis enim velit mollit.</p>
+              </div>
+            </div>
+
+            <div className="transition-all duration-200 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50">
+              <button type="button" className="flex items-center justify-between w-full px-4 py-5 sm:p-6">
+                <span className="flex text-lg font-semibold text-black"> How can I make payment using Paypal? </span>
+
+                <svg className="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div className="hidden px-4 pb-5 sm:px-6 sm:pb-6">
+                <p>Amet minim mollit non deserunt ullamco est sit <a href="#" title="" className="text-blue-600 transition-all duration-200 hover:underline">aliqua dolor</a> do amet sint. Velit officia consequat duis enim velit mollit.</p>
+              </div>
+            </div>
+
+            <div className="transition-all duration-200 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50">
+              <div className="">
+                <button type="button" className="flex items-center justify-between w-full px-4 py-5 sm:p-6">
+                  <span className="flex text-lg font-semibold text-black"> Can I cancel my plan? </span>
+
+                  <svg className="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+
+                <div className="hidden px-4 pb-5 sm:px-6 sm:pb-6">
+                  <p>Amet minim mollit non deserunt ullamco est sit <a href="#" title="" className="text-blue-600 transition-all duration-200 hover:underline">aliqua dolor</a> do amet sint. Velit officia consequat duis enim velit mollit.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="transition-all duration-200 bg-white border border-gray-200 cursor-pointer hover:bg-gray-50">
+              <button type="button" className="flex items-center justify-between w-full px-4 py-5 sm:p-6">
+                <span className="flex text-lg font-semibold text-black"> How can I reach to support? </span>
+
+                <svg className="w-6 h-6 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+
+              <div className="hidden px-4 pb-5 sm:px-6 sm:pb-6">
+                <p>Amet minim mollit non deserunt ullamco est sit <a href="#" title="" className="text-blue-600 transition-all duration-200 hover:underline">aliqua dolor</a> do amet sint. Velit officia consequat duis enim velit mollit.</p>
+              </div>
+            </div>
+          </div>
+
+          <p className="text-center text-gray-600 textbase mt-9">Didn’t find the answer you are looking for? <a href="#" title="" className="font-medium text-blue-600 transition-all duration-200 hover:text-blue-700 focus:text-blue-700 hover:underline">Contact our support</a></p>
+        </div>
+      </section>
 
     </>
   );

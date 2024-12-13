@@ -275,6 +275,28 @@ export interface Home {
         id?: string | null;
       }[]
     | null;
+  questionsDescription?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  questions?:
+    | {
+        question: string;
+        answer: string;
+        id?: string | null;
+      }[]
+    | null;
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -306,6 +328,14 @@ export interface HomeSelect<T extends boolean = true> {
         description?: T;
         name?: T;
         company?: T;
+        id?: T;
+      };
+  questionsDescription?: T;
+  questions?:
+    | T
+    | {
+        question?: T;
+        answer?: T;
         id?: T;
       };
   _status?: T;

@@ -6,7 +6,7 @@ import { CollectionConfig, GlobalConfig, } from "payload";
 
 export const Home: GlobalConfig = {
   slug: "home",
-  versions: versionConfig,  
+  versions: versionConfig,
   access: {
     update: isAdminOrEditor,
   },
@@ -30,9 +30,6 @@ export const Home: GlobalConfig = {
                   name: "logo",
                   type: "upload",
                   relationTo: "media",
-                  admin: {
-                    width: 100
-                  }
                 },
                 {
                   name: "name",
@@ -67,7 +64,7 @@ export const Home: GlobalConfig = {
           fields: [
             {
               type: "richText",
-              name: "featuredDescription",              
+              name: "featuredDescription",
             },
             {
               name: "featuredButtonTittle",
@@ -99,6 +96,31 @@ export const Home: GlobalConfig = {
                 {
                   type: "text",
                   name: "company",
+                }
+              ]
+            }
+          ]
+        },
+        {
+          label: "Questions",
+          fields: [
+            {
+              type: "richText",
+              name: "questionsDescription",
+            },
+            {
+              type: "array",
+              name: "questions",
+              fields: [
+                {
+                  type: "text",
+                  name: "question",
+                  required: true,
+                },
+                {
+                  type: "textarea",
+                  name: "answer",
+                  required: true,
                 }
               ]
             }
