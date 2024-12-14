@@ -15,6 +15,9 @@ export interface Config {
     media: Media;
     categories: Category;
     products: Product;
+    variations: Variation;
+    subvariations: Subvariation;
+    prices: Price;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -23,12 +26,21 @@ export interface Config {
     categories: {
       products: 'products';
     };
+    products: {
+      'price.price': 'prices';
+    };
+    variations: {
+      subvariations: 'subvariations';
+    };
   };
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     products: ProductsSelect<false> | ProductsSelect<true>;
+    variations: VariationsSelect<false> | VariationsSelect<true>;
+    subvariations: SubvariationsSelect<false> | SubvariationsSelect<true>;
+    prices: PricesSelect<false> | PricesSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -141,9 +153,30 @@ export interface Product {
   slug?: string | null;
   name: string;
   category: (number | Category)[];
-  detail: {
-    price: number;
-    sku?: string | null;
+  sku?: string | null;
+  option?: {
+    options?:
+      | {
+          variation: number | Variation;
+          subvariation: number | Subvariation;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  price?: {
+    price?: {
+      docs?: (number | Price)[] | null;
+      hasNextPage?: boolean | null;
+    } | null;
+  };
+  freeOption?: {
+    freeOptions?:
+      | {
+          variation: number | Variation;
+          subvariation: number | Subvariation;
+          id?: string | null;
+        }[]
+      | null;
   };
   specification?: {
     description?: {
@@ -175,6 +208,43 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "variations".
+ */
+export interface Variation {
+  id: number;
+  name: string;
+  subvariations?: {
+    docs?: (number | Subvariation)[] | null;
+    hasNextPage?: boolean | null;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subvariations".
+ */
+export interface Subvariation {
+  id: number;
+  name: string;
+  variation: number | Variation;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prices".
+ */
+export interface Price {
+  id: number;
+  price: number;
+  name: string;
+  product: number | Product;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -195,6 +265,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'products';
         value: number | Product;
+      } | null)
+    | ({
+        relationTo: 'variations';
+        value: number | Variation;
+      } | null)
+    | ({
+        relationTo: 'subvariations';
+        value: number | Subvariation;
+      } | null)
+    | ({
+        relationTo: 'prices';
+        value: number | Price;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -306,11 +388,33 @@ export interface ProductsSelect<T extends boolean = true> {
   slug?: T;
   name?: T;
   category?: T;
-  detail?:
+  sku?: T;
+  option?:
+    | T
+    | {
+        options?:
+          | T
+          | {
+              variation?: T;
+              subvariation?: T;
+              id?: T;
+            };
+      };
+  price?:
     | T
     | {
         price?: T;
-        sku?: T;
+      };
+  freeOption?:
+    | T
+    | {
+        freeOptions?:
+          | T
+          | {
+              variation?: T;
+              subvariation?: T;
+              id?: T;
+            };
       };
   specification?:
     | T
@@ -327,6 +431,37 @@ export interface ProductsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "variations_select".
+ */
+export interface VariationsSelect<T extends boolean = true> {
+  name?: T;
+  subvariations?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subvariations_select".
+ */
+export interface SubvariationsSelect<T extends boolean = true> {
+  name?: T;
+  variation?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "prices_select".
+ */
+export interface PricesSelect<T extends boolean = true> {
+  price?: T;
+  name?: T;
+  product?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

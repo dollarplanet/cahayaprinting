@@ -1,4 +1,6 @@
-import { Category, Media, Product } from "@/payload-types";
+"use client";
+
+import { Category, Media, Product, Variation } from "@/payload-types";
 import { money } from "@/utils/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
@@ -8,6 +10,8 @@ type Props = {
 }
 
 export const ProductCard = (props: Props) => {
+  // const optionKeys = [...(new Set(props.product.variation.options.map(option => (option.variation as Variation).name)))];
+
   return (
     <div className="bg-gray-100">
       <div className="container mx-auto px-4 py-8">
@@ -30,8 +34,8 @@ export const ProductCard = (props: Props) => {
               ))}
             </div>
 
-            <p className="text-gray-600 mb-4">SKU: {props.product.detail.sku}</p>
-            {Boolean(props.product?.detail?.price) && <div className="text-2xl font-bold mr-2">{money(props.product.detail.price)}</div>}
+            <p className="text-gray-600 mb-4">SKU: {props.product.sku}</p>
+            {/* {Boolean(props.product?.detail?.price) && <div className="text-2xl font-bold mr-2">{money(props.product.detail.price)}</div>} */}
             <div className="flex items-center mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                 className="size-6 text-yellow-500">
@@ -78,6 +82,22 @@ export const ProductCard = (props: Props) => {
                   className="w-8 h-8 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"></button>
               </div>
             </div> */}
+
+            {/* {optionKeys.map((optionKey, index) => {
+              return (
+                <div key={index}>
+                  <h3 className="text-lg font-semibold mb-2">{optionKey}</h3>
+                  <div className="flex space-x-2">
+                    <button
+                      className="w-8 h-8 bg-black rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
+                    <button
+                      className="w-8 h-8 bg-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
+                    <button
+                      className="w-8 h-8 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"></button>
+                  </div>
+                </div>
+              )
+            })} */}
 
             <div className="flex space-x-4 mb-6">
               <button
