@@ -154,6 +154,17 @@ export interface Product {
   name: string;
   category: (number | Category)[];
   sku?: string | null;
+  variant: {
+    subvariation: (number | Subvariation)[];
+    prices?:
+      | {
+          name: string;
+          price: number;
+          combinations: (number | Subvariation)[];
+          id?: string | null;
+        }[]
+      | null;
+  };
   option?: {
     options?:
       | {
@@ -208,6 +219,17 @@ export interface Product {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "subvariations".
+ */
+export interface Subvariation {
+  id: number;
+  name: string;
+  variation: number | Variation;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "variations".
  */
 export interface Variation {
@@ -217,17 +239,6 @@ export interface Variation {
     docs?: (number | Subvariation)[] | null;
     hasNextPage?: boolean | null;
   } | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "subvariations".
- */
-export interface Subvariation {
-  id: number;
-  name: string;
-  variation: number | Variation;
   updatedAt: string;
   createdAt: string;
 }
@@ -396,6 +407,19 @@ export interface ProductsSelect<T extends boolean = true> {
   name?: T;
   category?: T;
   sku?: T;
+  variant?:
+    | T
+    | {
+        subvariation?: T;
+        prices?:
+          | T
+          | {
+              name?: T;
+              price?: T;
+              combinations?: T;
+              id?: T;
+            };
+      };
   option?:
     | T
     | {

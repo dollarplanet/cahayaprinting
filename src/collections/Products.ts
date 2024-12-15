@@ -1,3 +1,4 @@
+import { Subvariation, Variation } from "@/payload-types";
 import { combos } from "@/utils/combos";
 import { versionConfig } from "@/utils/version-config";
 import { equal, notEqual } from "assert";
@@ -61,6 +62,112 @@ export const Products: CollectionConfig = {
     {
       type: "tabs",
       tabs: [
+        {
+          name: "variant",
+          fields: [
+            {
+              type: "relationship",
+              name: "subvariation",
+              relationTo: "subvariations",
+              required: true,
+              hasMany: true,
+              hooks: {
+                beforeChange: [
+                  async ({ value, siblingData, req: { payload }, operation }) => {
+                    if (operation === 'read') return value;
+
+                    const subs = await payload.find({
+                      collection: "subvariations",
+                      depth: 1,
+                      where: {
+                        id: {
+                          in: value
+                        }
+                      }
+                    });
+
+                    // [2,4,6]
+                    const variantIds = subs.docs.map((sub) => (sub.variation as Variation).id);
+
+                    // [ [], [] ]
+                    let holder: (number | undefined)[][] = [];
+
+                    for (let i = 0; i < variantIds.length; i++) {
+                      if (holder[variantIds[i]] === undefined) {
+                        holder[variantIds[i]] = []
+                      };
+
+                      // [ [], [], [4,5], [], [2,3] ]
+                      holder[variantIds[i]].push(value[i]);
+                    }
+
+                    // [ [4,5], [2,3] ]
+                    holder = holder.filter((v) => (v.length > 0) && (!v.includes(undefined)));
+
+                    const combo: number[][] = combos(holder);
+
+                    const prices: { combinations: number[], price: number, name: string }[] = combo.map((c) => {
+                      return {
+                        combinations: c,
+                        price: 99999999,
+                        name: c.map((c: any) => {
+                          const sub = subs.docs.find((sub) => sub.id === c);
+                          return `${(sub!.variation as Variation).name} ${sub!.name}`;
+                        }).join(", ")
+                      }
+                    })
+
+                    siblingData.prices = prices;
+
+                    return value;
+                  }
+                ],
+              }
+            },
+            {
+              type: "array",
+              name: "prices",
+              access: {
+                create: () => false,
+              },
+              fields: [
+                {
+                  type: "row",
+                  fields: [
+                    {
+                      name: "name",
+                      type: "text",
+                      required: true,
+                      access: {
+                        create: () => false,
+                        update: () => false
+                      },
+                    },
+                    {
+                      name: "price",
+                      type: "number",
+                      required: true,
+                    },
+                    {
+                      type: "relationship",
+                      name: "combinations",
+                      relationTo: "subvariations",
+                      required: true,
+                      hasMany: true,
+                      access: {
+                        update: () => false,
+                        create: () => false
+                      },
+                      admin: {
+                        hidden: true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
         {
           name: "option",
           fields: [
