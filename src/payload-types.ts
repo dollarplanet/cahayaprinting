@@ -237,9 +237,16 @@ export interface Subvariation {
  */
 export interface Price {
   id: number;
+  name?: string | null;
   price: number;
-  name: string;
   product: number | Product;
+  combinations?:
+    | {
+        variation: number | Variation;
+        subvariation: number | Subvariation;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -457,9 +464,16 @@ export interface SubvariationsSelect<T extends boolean = true> {
  * via the `definition` "prices_select".
  */
 export interface PricesSelect<T extends boolean = true> {
-  price?: T;
   name?: T;
+  price?: T;
   product?: T;
+  combinations?:
+    | T
+    | {
+        variation?: T;
+        subvariation?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

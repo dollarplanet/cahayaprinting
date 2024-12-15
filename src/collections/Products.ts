@@ -1,3 +1,4 @@
+import { combos } from "@/utils/combos";
 import { versionConfig } from "@/utils/version-config";
 import { equal, notEqual } from "assert";
 import { CollectionConfig } from "payload";
@@ -67,67 +68,55 @@ export const Products: CollectionConfig = {
               type: "array",
               name: "options",
               hooks: {
-                beforeChange: [
-                  async ({ data, value, operation, req: { payload } }) => {
-                    if (operation !== "read") {
-                      if (data !== undefined) {
-                        // clear old data
-                        await payload.delete({
-                          collection: "prices",
-                          where: {
-                            product: {
-                              equals: data.id
-                            },
-                          }
-                        });
+                afterChange: [
+                  async ({ value, operation, req: { payload }, originalDoc }) => {
+                    if ((operation !== "read") && (originalDoc !== undefined)) {
+                      // process raw data
+                      const rawArray = []; // array of array unprocessed
+                      let variationKeys: any[] = [];
 
-                        const variations = await payload.find({ collection: "variations" });
-                        const subvariations = await payload.find({ collection: "subvariations" });
-                        const isSingleVariation = [...new Set(value.map((v: any) => v.variation))].length === 1;
+                      for (const item of value) {
+                        if (!item.variation || !item.subvariation) return;
 
-                        let combinations = [];
-
-                        // generate combinations
-                        if (isSingleVariation) {
-                          combinations = value.map((v: any) => {
-                            if (!v.variation || !v.subvariation) {
-                              return null;
-                            }
-
-                            return `${variations.docs.find((g: any) => g.id === v.variation)?.name} (${subvariations.docs.find((h: any) => h.id === v.subvariation)?.name})`
-                          }).filter((v: any) => v !== null);
-                        } else {
-                          combinations = value.flatMap((temp: any, ind: any) => {
-                            return value.slice(ind + 1).map((holder: any) => {
-                              if (!temp.variation || !temp.subvariation || !holder.variation || !holder.subvariation) {
-                                return null;
-                              }
-
-                              if (temp.variation === holder.variation) {
-                                return null;
-                              }
-                              return `${variations.docs.find((v: any) => v.id === temp.variation)?.name} (${subvariations.docs.find((v: any) => v.id === temp.subvariation)?.name}) & ${variations.docs.find((v: any) => v.id === holder.variation)?.name} (${subvariations.docs.find((v: any) => v.id === holder.subvariation)?.name})`;
-                            })
-                          }).filter((v: any) => v !== null);
-                        }
-
-                        combinations = [...new Set(combinations)];
-
-                        console.log(combinations)
-
-                        for (const combination of combinations) {
-                          await payload.create({
-                            collection: "prices",
-                            data: {
-                              name: combination as string,
-                              price: 99999999,
-                              product: data.id,
-                            }
-                          })
-                        }
+                        variationKeys.push(item.variation.id);
+                        variationKeys = [...new Set(variationKeys)];
                       }
-                    };
-                  }
+
+                      for (const variationKey of variationKeys) {
+                        rawArray.push(value.filter((v: any) => v.variation.id === variationKey));
+                      }
+
+                      const combo = combos(rawArray);
+
+                      // delete old prices
+                      await payload.delete({
+                        collection: "prices",
+                        where: {
+                          product: {
+                            equals: originalDoc.id
+                          }
+                        }
+                      })
+
+                      // insert new prices
+                      for (const comb of combo) {
+                        if (comb.length === 0) continue;
+                        // delete possible duplicate
+                        await payload.create({
+                          collection: "prices",
+                          data: {
+                            name: comb,
+                            price: 99999999,
+                            product: originalDoc.id,
+                            combinations: comb.map((c: any) => ({
+                              variation: c.variation,
+                              subvariation: c.subvariation
+                            }))
+                          }
+                        })
+                      }
+                    }
+                  },
                 ],
               },
               fields: [
@@ -156,9 +145,6 @@ export const Products: CollectionConfig = {
         },
         {
           name: "price",
-          admin: {
-            description: "Refresh page to see new data"
-          },
           fields: [
             {
               type: "join",
