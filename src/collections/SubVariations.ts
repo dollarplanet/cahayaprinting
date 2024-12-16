@@ -18,9 +18,9 @@ export const SubVariations: CollectionConfig = {
       name: "variation",
       relationTo: "variations",
       required: true,
-      access: {
-        update: () => false,
-      },
+      admin: {
+        readOnly: true
+      }
     }
   ],
 }

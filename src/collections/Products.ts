@@ -82,7 +82,7 @@ export const Products: CollectionConfig = {
                       depth: 1,
                       where: {
                         id: {
-                          in: value
+                          in: value.map((v: any) => v.id)
                         }
                       }
                     });
@@ -136,7 +136,7 @@ export const Products: CollectionConfig = {
           fields: [
             {
               type: "join",
-              name: "price",
+              name: "prices",
               collection: "prices",
               on: "product",
             },
@@ -145,30 +145,12 @@ export const Products: CollectionConfig = {
         {
           name: "freeOption",
           fields: [
-            {
-              type: "array",
-              name: "freeOptions",
-              fields: [
-                {
-                  type: "relationship",
-                  name: "variation",
-                  required: true,
-                  relationTo: "variations",
-                },
-                {
-                  type: "relationship",
-                  name: "subvariation",
-                  required: true,
-                  relationTo: "subvariations",
-                  filterOptions: ({ siblingData }) => {
-                    return {
-                      variation: {
-                        equals: (siblingData as any).variation
-                      }
-                    }
-                  },
-                },
-              ]
+            {            
+              type: "relationship",
+              name: "subvariation",
+              relationTo: "subvariations",
+              required: true,
+              hasMany: true,
             }
           ]
         },

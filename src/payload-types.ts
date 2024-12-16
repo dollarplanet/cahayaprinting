@@ -27,7 +27,7 @@ export interface Config {
       products: 'products';
     };
     products: {
-      'price.price': 'prices';
+      'price.prices': 'prices';
     };
     variations: {
       subvariations: 'subvariations';
@@ -158,19 +158,13 @@ export interface Product {
     subvariation: (number | Subvariation)[];
   };
   price?: {
-    price?: {
+    prices?: {
       docs?: (number | Price)[] | null;
       hasNextPage?: boolean | null;
     } | null;
   };
-  freeOption?: {
-    freeOptions?:
-      | {
-          variation: number | Variation;
-          subvariation: number | Subvariation;
-          id?: string | null;
-        }[]
-      | null;
+  freeOption: {
+    subvariation: (number | Subvariation)[];
   };
   specification?: {
     description?: {
@@ -392,18 +386,12 @@ export interface ProductsSelect<T extends boolean = true> {
   price?:
     | T
     | {
-        price?: T;
+        prices?: T;
       };
   freeOption?:
     | T
     | {
-        freeOptions?:
-          | T
-          | {
-              variation?: T;
-              subvariation?: T;
-              id?: T;
-            };
+        subvariation?: T;
       };
   specification?:
     | T
