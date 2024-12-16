@@ -76,17 +76,28 @@ export const Products: CollectionConfig = {
                 afterChange: [
                   async ({ value, originalDoc, req: { payload }, operation }) => {
                     if ((operation === 'read') || (operation === 'create') || (originalDoc === undefined) || (value === undefined)) return;
-
+                    
+                    await payload.delete({
+                      collection: "prices",
+                      where: {
+                        product: {
+                          equals: originalDoc.id
+                        }
+                      }
+                    })
+                    
+                    if (value.length === 0) return;
+                    
                     const subs = await payload.find({
                       collection: "subvariations",
                       depth: 1,
                       where: {
                         id: {
-                          in: value.map((v: any) => v.id)
+                          in: value.map((v: any) => (typeof v === "number") ? v : v.id)
                         }
                       }
                     });
-
+                    
                     const tempHolder: Map<number, number[]> = new Map();
 
                     for (const sub of subs.docs) {
@@ -107,15 +118,6 @@ export const Products: CollectionConfig = {
                           const sub = subs.docs.find((sub) => sub.id === c);
                           return `${(sub!.variation as Variation).name} ${sub!.name}`;
                         }).join(", ")
-                      }
-                    })
-
-                    await payload.delete({
-                      collection: "prices",
-                      where: {
-                        product: {
-                          equals: originalDoc.id
-                        }
                       }
                     })
 
