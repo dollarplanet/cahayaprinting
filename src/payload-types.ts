@@ -156,23 +156,6 @@ export interface Product {
   sku?: string | null;
   variant: {
     subvariation: (number | Subvariation)[];
-    prices?:
-      | {
-          name: string;
-          price: number;
-          combinations: (number | Subvariation)[];
-          id?: string | null;
-        }[]
-      | null;
-  };
-  option?: {
-    options?:
-      | {
-          variation: number | Variation;
-          subvariation: number | Subvariation;
-          id?: string | null;
-        }[]
-      | null;
   };
   price?: {
     price?: {
@@ -251,13 +234,7 @@ export interface Price {
   name?: string | null;
   price: number;
   product: number | Product;
-  combinations?:
-    | {
-        variation: number | Variation;
-        subvariation: number | Subvariation;
-        id?: string | null;
-      }[]
-    | null;
+  combinations: (number | Subvariation)[];
   updatedAt: string;
   createdAt: string;
 }
@@ -411,25 +388,6 @@ export interface ProductsSelect<T extends boolean = true> {
     | T
     | {
         subvariation?: T;
-        prices?:
-          | T
-          | {
-              name?: T;
-              price?: T;
-              combinations?: T;
-              id?: T;
-            };
-      };
-  option?:
-    | T
-    | {
-        options?:
-          | T
-          | {
-              variation?: T;
-              subvariation?: T;
-              id?: T;
-            };
       };
   price?:
     | T
@@ -491,13 +449,7 @@ export interface PricesSelect<T extends boolean = true> {
   name?: T;
   price?: T;
   product?: T;
-  combinations?:
-    | T
-    | {
-        variation?: T;
-        subvariation?: T;
-        id?: T;
-      };
+  combinations?: T;
   updatedAt?: T;
   createdAt?: T;
 }

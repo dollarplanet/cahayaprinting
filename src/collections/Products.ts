@@ -2,6 +2,7 @@ import { Subvariation, Variation } from "@/payload-types";
 import { combos } from "@/utils/combos";
 import { versionConfig } from "@/utils/version-config";
 import { equal, notEqual } from "assert";
+import { PgTable } from "drizzle-orm/pg-core";
 import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {
@@ -72,9 +73,9 @@ export const Products: CollectionConfig = {
               required: true,
               hasMany: true,
               hooks: {
-                beforeChange: [
-                  async ({ value, siblingData, req: { payload }, operation }) => {
-                    if (operation === 'read') return value;
+                afterChange: [
+                  async ({ value, originalDoc, req: { payload }, operation }) => {
+                    if ((operation === 'read') || (operation === 'create') || (originalDoc === undefined) || (value === undefined)) return;
 
                     const subs = await payload.find({
                       collection: "subvariations",
@@ -86,30 +87,22 @@ export const Products: CollectionConfig = {
                       }
                     });
 
-                    // [2,4,6]
-                    const variantIds = subs.docs.map((sub) => (sub.variation as Variation).id);
+                    const tempHolder: Map<number, number[]> = new Map();
 
-                    // [ [], [] ]
-                    let holder: (number | undefined)[][] = [];
-
-                    for (let i = 0; i < variantIds.length; i++) {
-                      if (holder[variantIds[i]] === undefined) {
-                        holder[variantIds[i]] = []
-                      };
-
-                      // [ [], [], [4,5], [], [2,3] ]
-                      holder[variantIds[i]].push(value[i]);
+                    for (const sub of subs.docs) {
+                      const key = (sub.variation as Variation).id;
+                      tempHolder.set((sub.variation as Variation).id, [...(tempHolder.get(key) ?? []), sub.id]);
                     }
-
-                    // [ [4,5], [2,3] ]
-                    holder = holder.filter((v) => (v.length > 0) && (!v.includes(undefined)));
-
+                    
+                    const holder = Array.from(tempHolder.values()).filter((v) => (v.length > 0));
+                    
                     const combo: number[][] = combos(holder);
 
-                    const prices: { combinations: number[], price: number, name: string }[] = combo.map((c) => {
+                    const prices: { combinations: number[], price: number, name: string, product: number }[] = combo.map((c) => {
                       return {
                         combinations: c,
                         price: 99999999,
+                        product: originalDoc.id,
                         name: c.map((c: any) => {
                           const sub = subs.docs.find((sub) => sub.id === c);
                           return `${(sub!.variation as Variation).name} ${sub!.name}`;
@@ -117,137 +110,25 @@ export const Products: CollectionConfig = {
                       }
                     })
 
-                    siblingData.prices = prices;
+                    await payload.delete({
+                      collection: "prices",
+                      where: {
+                        product: {
+                          equals: originalDoc.id
+                        }
+                      }
+                    })
 
-                    return value;
+                    for (const price of prices) {
+                      await payload.create({
+                        collection: "prices",
+                        data: price,
+                      })
+                    }
                   }
                 ],
               }
             },
-            {
-              type: "array",
-              name: "prices",
-              access: {
-                create: () => false,
-              },
-              fields: [
-                {
-                  type: "row",
-                  fields: [
-                    {
-                      name: "name",
-                      type: "text",
-                      required: true,
-                      access: {
-                        create: () => false,
-                        update: () => false
-                      },
-                    },
-                    {
-                      name: "price",
-                      type: "number",
-                      required: true,
-                    },
-                    {
-                      type: "relationship",
-                      name: "combinations",
-                      relationTo: "subvariations",
-                      required: true,
-                      hasMany: true,
-                      access: {
-                        update: () => false,
-                        create: () => false
-                      },
-                      admin: {
-                        hidden: true
-                      }
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          name: "option",
-          fields: [
-            {
-              type: "array",
-              name: "options",
-              hooks: {
-                afterChange: [
-                  async ({ value, operation, req: { payload }, originalDoc }) => {
-                    if ((operation !== "read") && (originalDoc !== undefined)) {
-                      // process raw data
-                      const rawArray = []; // array of array unprocessed
-                      let variationKeys: any[] = [];
-
-                      for (const item of value) {
-                        if (!item.variation || !item.subvariation) return;
-
-                        variationKeys.push(item.variation.id);
-                        variationKeys = [...new Set(variationKeys)];
-                      }
-
-                      for (const variationKey of variationKeys) {
-                        rawArray.push(value.filter((v: any) => v.variation.id === variationKey));
-                      }
-
-                      const combo = combos(rawArray);
-
-                      // delete old prices
-                      await payload.delete({
-                        collection: "prices",
-                        where: {
-                          product: {
-                            equals: originalDoc.id
-                          }
-                        }
-                      })
-
-                      // insert new prices
-                      for (const comb of combo) {
-                        if (comb.length === 0) continue;
-                        // delete possible duplicate
-                        await payload.create({
-                          collection: "prices",
-                          data: {
-                            name: comb,
-                            price: 99999999,
-                            product: originalDoc.id,
-                            combinations: comb.map((c: any) => ({
-                              variation: c.variation,
-                              subvariation: c.subvariation
-                            }))
-                          }
-                        })
-                      }
-                    }
-                  },
-                ],
-              },
-              fields: [
-                {
-                  type: "relationship",
-                  name: "variation",
-                  required: true,
-                  relationTo: "variations",
-                },
-                {
-                  type: "relationship",
-                  name: "subvariation",
-                  required: true,
-                  relationTo: "subvariations",
-                  filterOptions: ({ siblingData }) => {
-                    return {
-                      variation: {
-                        equals: (siblingData as any).variation
-                      }
-                    }
-                  },
-                },
-              ]
-            }
           ]
         },
         {
