@@ -24,7 +24,7 @@ export const Products: CollectionConfig = {
       type: "tabs",
       tabs: [
         {
-          label: "Content",
+          label: "Detail",
           fields: [
 
             {

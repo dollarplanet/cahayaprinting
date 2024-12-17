@@ -11,7 +11,7 @@ type Props = {
 
 export const ProductCard = (props: Props) => {
   // const optionKeys = [...(new Set(props.product.variation.options.map(option => (option.variation as Variation).name)))];
-
+  console.log(props.product);
   return (
     <div className="bg-gray-100">
       <div className="container mx-auto px-4 py-8">

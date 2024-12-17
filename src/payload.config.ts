@@ -43,7 +43,7 @@ export default buildConfig({
   upload: {
     safeFileNames: true,
     limits: {
-      fileSize: 7 * 1024 * 1024,      
+      fileSize: 7 * 1024 * 1024,
     },
     abortOnLimit: true,
     responseOnLimit: 'File is too large',
@@ -55,6 +55,49 @@ export default buildConfig({
       collections: ["products"],
       globals: ["home"],
       tabbedUI: true,
+      uploadsCollection: "media",
+      generateImage: ({ doc, globalSlug, collectionSlug }) => {
+        const allowed = [
+          globalSlug === "home",
+          collectionSlug === "products",
+        ]
+
+        if (allowed.includes(true)) {
+          return doc?.thumbnail;
+        }
+
+      },
+      generateTitle: async ({ doc, req: { payload }, collectionSlug }) => {
+        if (collectionSlug === "products") {
+          const categories = await payload.find({
+            collection: "categories",
+            where: {
+              id: {
+                in: doc?.category
+              }
+            }
+          });
+
+          const categoriesNames = categories?.docs?.map((category) => category.name).join(", ");
+
+          return `${doc?.name} - SKU: ${doc?.sku} - Kategori: ${categoriesNames}`;
+        } 
+
+        return "";
+      },
+
+      fields: ({defaultFields}) => {
+        return [
+          ...defaultFields,
+          {
+            name: "keywords",
+            type: "text",
+            admin: {
+              description: "Keywords for SEO, separated by commas",
+            }
+          }
+        ]
+      }
     }),
   ],
 })

@@ -193,6 +193,8 @@ export interface Product {
   meta?: {
     title?: string | null;
     description?: string | null;
+    image?: (number | null) | Media;
+    keywords?: string | null;
   };
   updatedAt: string;
   createdAt: string;
@@ -414,6 +416,8 @@ export interface ProductsSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        keywords?: T;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -571,6 +575,8 @@ export interface Home {
   meta?: {
     title?: string | null;
     description?: string | null;
+    image?: (number | null) | Media;
+    keywords?: string | null;
   };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
@@ -635,6 +641,8 @@ export interface HomeSelect<T extends boolean = true> {
     | {
         title?: T;
         description?: T;
+        image?: T;
+        keywords?: T;
       };
   _status?: T;
   updatedAt?: T;
