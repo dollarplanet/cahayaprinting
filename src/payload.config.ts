@@ -15,6 +15,7 @@ import { Products } from './collections/Products'
 import { Variations } from './collections/Variations'
 import { SubVariations } from './collections/SubVariations'
 import { Prices } from './collections/Prices'
+import { seoPlugin } from '@payloadcms/plugin-seo'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -50,5 +51,10 @@ export default buildConfig({
   plugins: [
     payloadCloudPlugin(),
     // storage-adapter-placeholder
+    seoPlugin({
+      collections: ["products"],
+      globals: ["home"],
+      tabbedUI: true,
+    }),
   ],
 })

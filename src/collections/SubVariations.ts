@@ -6,6 +6,9 @@ export const SubVariations: CollectionConfig = {
     useAsTitle: "name",
     hidden: true,
   },
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: "name",

@@ -190,6 +190,10 @@ export interface Product {
         }[]
       | null;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -405,6 +409,12 @@ export interface ProductsSelect<T extends boolean = true> {
               id?: T;
             };
       };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -558,6 +568,10 @@ export interface Home {
         }[]
       | null;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   _status?: ('draft' | 'published') | null;
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -615,6 +629,12 @@ export interface HomeSelect<T extends boolean = true> {
               answer?: T;
               id?: T;
             };
+      };
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
       };
   _status?: T;
   updatedAt?: T;

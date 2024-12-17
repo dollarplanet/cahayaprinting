@@ -8,6 +8,9 @@ import { CollectionConfig } from "payload";
 export const Products: CollectionConfig = {
   slug: "products",
   versions: versionConfig,
+  access: {
+    read: () => true,
+  },
   admin: {
     useAsTitle: "name",
     livePreview: {
@@ -18,51 +21,57 @@ export const Products: CollectionConfig = {
   },
   fields: [
     {
-      type: "upload",
-      relationTo: "media",
-      name: "thumbnail",
-    },
-    {
-      name: "slug",
-      type: "text",
-      unique: true,
-      admin: {
-        disabled: true,
-      }
-    },
-    {
-      name: "name",
-      type: "text",
-      unique: true,
-      required: true,
-      hooks: {
-        beforeChange: [
-          ({ data, value }) => {
-            data!.slug = (typeof value === "string")
-              ? encodeURI(value.trim().toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")).replace(/-+/g, "-")
-              : value;
-
-            return value;
-          }
-        ]
-      }
-    },
-    {
-      type: "relationship",
-      name: "category",
-      relationTo: "categories",
-      hasMany: true,
-      minRows: 1,
-      required: true,
-    },
-    {
-      name: "sku",
-      type: "text",
-      unique: true,
-    },
-    {
       type: "tabs",
       tabs: [
+        {
+          label: "Content",
+          fields: [
+
+            {
+              type: "upload",
+              relationTo: "media",
+              name: "thumbnail",
+            },
+            {
+              name: "slug",
+              type: "text",
+              unique: true,
+              admin: {
+                disabled: true,
+              }
+            },
+            {
+              name: "name",
+              type: "text",
+              unique: true,
+              required: true,
+              hooks: {
+                beforeChange: [
+                  ({ data, value }) => {
+                    data!.slug = (typeof value === "string")
+                      ? encodeURI(value.trim().toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")).replace(/-+/g, "-")
+                      : value;
+
+                    return value;
+                  }
+                ]
+              }
+            },
+            {
+              type: "relationship",
+              name: "category",
+              relationTo: "categories",
+              hasMany: true,
+              minRows: 1,
+              required: true,
+            },
+            {
+              name: "sku",
+              type: "text",
+              unique: true,
+            },
+          ]
+        },
         {
           name: "variant",
           fields: [
@@ -76,7 +85,7 @@ export const Products: CollectionConfig = {
                 afterChange: [
                   async ({ value, originalDoc, req: { payload }, operation }) => {
                     if ((operation === 'read') || (operation === 'create') || (originalDoc === undefined) || (value === undefined)) return;
-                    
+
                     await payload.delete({
                       collection: "prices",
                       where: {
@@ -85,9 +94,9 @@ export const Products: CollectionConfig = {
                         }
                       }
                     })
-                    
+
                     if (value.length === 0) return;
-                    
+
                     const subs = await payload.find({
                       collection: "subvariations",
                       depth: 1,
@@ -97,16 +106,16 @@ export const Products: CollectionConfig = {
                         }
                       }
                     });
-                    
+
                     const tempHolder: Map<number, number[]> = new Map();
 
                     for (const sub of subs.docs) {
                       const key = (sub.variation as Variation).id;
                       tempHolder.set((sub.variation as Variation).id, [...(tempHolder.get(key) ?? []), sub.id]);
                     }
-                    
+
                     const holder = Array.from(tempHolder.values()).filter((v) => (v.length > 0));
-                    
+
                     const combo: number[][] = combos(holder);
 
                     const prices: { combinations: number[], price: number, name: string, product: number }[] = combo.map((c) => {
@@ -141,13 +150,17 @@ export const Products: CollectionConfig = {
               name: "prices",
               collection: "prices",
               on: "product",
+              admin: {
+                disableListColumn: true,
+                allowCreate: false
+              }
             },
           ]
         },
         {
           name: "freeOption",
           fields: [
-            {            
+            {
               type: "relationship",
               name: "subvariation",
               relationTo: "subvariations",

@@ -5,18 +5,17 @@ export const Prices: CollectionConfig = {
   admin: {
     hidden: true,
     useAsTitle: "name",
-  },
-  access: {
-    create: () => false,
   },  
+  access: {
+    read: () => true,
+  },
   fields: [
     {
       name: "name",
       type: "text",
-      access: {
-        create: () => false,
-        update: () => false,
-      },
+      admin: {
+        readOnly: true,
+      }
     },
     {
       name: "price",
@@ -28,12 +27,9 @@ export const Prices: CollectionConfig = {
       name: "product",
       relationTo: "products",
       required: true,
-      access: {
-        create: () => false,
-        update: () => false,
-      },
       admin: {
         hidden: true,
+        readOnly: true,
       }
     },
     {
@@ -44,10 +40,7 @@ export const Prices: CollectionConfig = {
       hasMany: true,
       admin: {
         hidden: true,
-      },
-      access: {
-        create: () => false,
-        update: () => false,
+        readOnly: true,
       },
     },
   ],
