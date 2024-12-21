@@ -20,6 +20,7 @@
     "@payloadcms/live-preview-react": "3.7.0",
     "@payloadcms/next": "3.7.0",
     "@payloadcms/payload-cloud": "3.7.0",
+    "@payloadcms/plugin-search": "3.7.0",
     "@payloadcms/plugin-seo": "3.7.0",
     "@payloadcms/richtext-lexical": "3.7.0",
     "cross-env": "^7.0.3",

@@ -16,6 +16,7 @@ import { Variations } from './collections/Variations'
 import { SubVariations } from './collections/SubVariations'
 import { Prices } from './collections/Prices'
 import { seoPlugin } from '@payloadcms/plugin-seo'
+import { searchPlugin } from '@payloadcms/plugin-search'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -98,6 +99,9 @@ export default buildConfig({
           }
         ]
       }
+    }),
+    searchPlugin({
+      collections: ["products"],
     }),
   ],
 })

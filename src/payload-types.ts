@@ -18,6 +18,7 @@ export interface Config {
     variations: Variation;
     subvariations: Subvariation;
     prices: Price;
+    search: Search;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -41,6 +42,7 @@ export interface Config {
     variations: VariationsSelect<false> | VariationsSelect<true>;
     subvariations: SubvariationsSelect<false> | SubvariationsSelect<true>;
     prices: PricesSelect<false> | PricesSelect<true>;
+    search: SearchSelect<false> | SearchSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -151,6 +153,7 @@ export interface Product {
   id: number;
   thumbnail?: (number | null) | Media;
   slug?: string | null;
+  title?: string | null;
   name: string;
   category: (number | Category)[];
   sku?: string | null;
@@ -240,6 +243,21 @@ export interface Price {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search".
+ */
+export interface Search {
+  id: number;
+  title?: string | null;
+  priority?: number | null;
+  doc: {
+    relationTo: 'products';
+    value: number | Product;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -272,6 +290,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'prices';
         value: number | Price;
+      } | null)
+    | ({
+        relationTo: 'search';
+        value: number | Search;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -381,6 +403,7 @@ export interface CategoriesSelect<T extends boolean = true> {
 export interface ProductsSelect<T extends boolean = true> {
   thumbnail?: T;
   slug?: T;
+  title?: T;
   name?: T;
   category?: T;
   sku?: T;
@@ -452,6 +475,17 @@ export interface PricesSelect<T extends boolean = true> {
   price?: T;
   product?: T;
   combinations?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "search_select".
+ */
+export interface SearchSelect<T extends boolean = true> {
+  title?: T;
+  priority?: T;
+  doc?: T;
   updatedAt?: T;
   createdAt?: T;
 }

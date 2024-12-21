@@ -42,6 +42,13 @@ export const Products: CollectionConfig = {
               }
             },
             {
+              name: "title",
+              type: "text",
+              admin: {
+                disabled: true,
+              }
+            },
+            {
               name: "name",
               type: "text",
               required: true,
@@ -52,6 +59,10 @@ export const Products: CollectionConfig = {
                       name: value,
                       sku: siblingData?.sku,
                     });
+
+                    const category = siblingData?.title?.split("==>")?.[1];
+
+                    data!.title = value + " " + siblingData?.sku + " " + category;
 
                     return value;
                   }
@@ -65,6 +76,25 @@ export const Products: CollectionConfig = {
               hasMany: true,
               minRows: 1,
               required: true,
+              hooks: {
+                beforeChange: [
+                  async ({ data, value, siblingData, req: { payload } }) => {
+                    const categories = await payload.find({
+                      collection: "categories",
+                      depth: 0,
+                      where: {
+                        id: {
+                          in: value
+                        }
+                      }
+                    });
+
+                    data!.title = siblingData?.name + " " + siblingData?.sku + " ==> " + categories.docs.map((category) => category.name).join(" ");
+
+                    return value;
+                  }
+                ]
+              },
             },
             {
               name: "sku",
@@ -77,6 +107,10 @@ export const Products: CollectionConfig = {
                       name: siblingData?.name,
                       sku: value,
                     });
+
+                    const category = siblingData?.title?.split("==>")?.[1];
+
+                    data!.title = siblingData?.name + " " + value + " " + category;
 
                     return value;
                   }
