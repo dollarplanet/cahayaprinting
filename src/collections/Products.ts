@@ -48,8 +48,11 @@ export const Products: CollectionConfig = {
               required: true,
               hooks: {
                 beforeChange: [
-                  ({ data, value }) => {
-                    data!.slug = generateProductSlug(String(value));
+                  ({ data, value, siblingData }) => {
+                    data!.slug = generateProductSlug({
+                      name: value,
+                      sku: siblingData?.sku,
+                    });
 
                     return value;
                   }
@@ -68,6 +71,18 @@ export const Products: CollectionConfig = {
               name: "sku",
               type: "text",
               unique: true,
+              hooks: {
+                beforeChange: [
+                  ({ data, value, siblingData }) => {
+                    data!.slug = generateProductSlug({
+                      name: siblingData?.name,
+                      sku: value,
+                    });
+
+                    return value;
+                  }
+                ]
+              }
             },
           ]
         },
@@ -86,7 +101,7 @@ export const Products: CollectionConfig = {
               name: "generatePrice",
               admin: {
                 components: {
-                  Field: "/components/price-generator-button.tsx" 
+                  Field: "/components/price-generator-button.tsx"
                 }
               }
             }
