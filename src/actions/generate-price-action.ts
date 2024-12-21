@@ -31,8 +31,6 @@ export const generatePriceAction = async (productId: number) => {
     }
   })
 
-  console.log("PRICES COUNT", await payload.count({ collection: "prices", where: { product: { equals: productId } } }))
-
   if (subs.length === 0) return;
 
   const tempHolder: Map<number, number[]> = new Map();
