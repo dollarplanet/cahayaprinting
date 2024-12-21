@@ -1,8 +1,8 @@
 "use client";
 
 import { Category, Media, Price, Product, Subvariation, Variation } from "@/payload-types";
-import { isSameArray } from "@/utils/is-same-array";
-import { money } from "@/utils/money";
+import { isSameArray } from "@/utilities/is-same-array";
+import { money } from "@/utilities/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";

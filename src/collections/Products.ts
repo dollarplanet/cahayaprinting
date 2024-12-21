@@ -1,6 +1,7 @@
 import { Subvariation, Variation } from "@/payload-types";
-import { combos } from "@/utils/combos";
-import { versionConfig } from "@/utils/version-config";
+import { combos } from "@/utilities/combos";
+import { generateProductSlug } from "@/utilities/generate-product-slug";
+import { versionConfig } from "@/utilities/version-config";
 import { equal, notEqual } from "assert";
 import { PgTable } from "drizzle-orm/pg-core";
 import { CollectionConfig } from "payload";
@@ -48,9 +49,7 @@ export const Products: CollectionConfig = {
               hooks: {
                 beforeChange: [
                   ({ data, value }) => {
-                    data!.slug = (typeof value === "string")
-                      ? encodeURI(value.trim().toLocaleLowerCase().replace(/[^a-zA-Z0-9]/g, "-")).replace(/-+/g, "-")
-                      : value;
+                    data!.slug = generateProductSlug(String(value));
 
                     return value;
                   }

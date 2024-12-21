@@ -1,7 +1,7 @@
 import { isAdminOrEditor } from "@/accesses/is-admin-or-editor";
 import { ButtonTitleField } from "@/fields/button-title-field";
 import { TitleField } from "@/fields/title-field";
-import { versionConfig } from "@/utils/version-config";
+import { versionConfig } from "@/utilities/version-config";
 import { CollectionConfig, GlobalConfig, } from "payload";
 
 export const Home: GlobalConfig = {

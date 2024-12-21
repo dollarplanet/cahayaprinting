@@ -2,7 +2,7 @@
 
 import { Subvariation, Variation } from "@/payload-types";
 import payloadConfig from "@/payload.config"
-import { combos } from "@/utils/combos";
+import { combos } from "@/utilities/combos";
 import { getPayload } from "payload"
 
 export const generatePriceAction = async (productId: number) => {

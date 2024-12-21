@@ -3,7 +3,7 @@ import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { Testimonial } from "@/components/testimonial";
 import { Media } from "@/payload-types";
 import payloadConfig from "@/payload.config";
-import { currentSession } from "@/utils/current-session";
+import { currentSession } from "@/utilities/current-session";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { headers } from "next/headers";
 import Image from "next/image";

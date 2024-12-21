@@ -3,7 +3,7 @@ import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { ProductCard } from "@/components/product-card";
 import { Subvariation, Variation } from "@/payload-types";
 import payloadConfig from "@/payload.config";
-import { currentSession } from "@/utils/current-session";
+import { currentSession } from "@/utilities/current-session";
 import { headers } from "next/headers";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
