@@ -20,7 +20,11 @@ const Page: NextServerPage = async ({ params }) => {
     notFound()
   }
 
-  const data = await getProductData(payload, id, true);
+  const data = await getProductData({
+    draft: true,
+    id: id,
+    payload: payload,
+  });
 
   return (
     <>

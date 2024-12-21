@@ -2,12 +2,18 @@ import { Subvariation, Variation } from "@/payload-types";
 import { notFound } from "next/navigation";
 import { BasePayload } from "payload";
 
-export const getProductData = async (payload: BasePayload, id: string | number, draft: boolean) => {
-  const product = await payload.findByID({
+type Props = {
+  payload: BasePayload;
+  id: string | number;
+  draft: boolean;
+}
+
+export const getProductData = async (props: Props) => {
+  const product = await props.payload.findByID({
     collection: "products",
     depth: 2,
-    draft: draft,
-    id: id,
+    draft: props.draft,
+    id: props.id,
     disableErrors: true,
   })
 
@@ -15,13 +21,13 @@ export const getProductData = async (payload: BasePayload, id: string | number, 
     notFound()
   }
 
-  const prices = await payload.find({
+  const prices = await props.payload.find({
     collection: "prices",
-    draft: draft,
+    draft: props.draft,
     depth: 0,
     where: {
       product: {
-        equals: id
+        equals: props.id
       }
     }
   })
