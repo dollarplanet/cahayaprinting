@@ -1,5 +1,7 @@
+import { getProductData } from "@/app/(frontend)/product/get-product-data";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { ProductCard } from "@/components/product-card";
+import { Subvariation, Variation } from "@/payload-types";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utils/current-session";
 import { headers } from "next/headers";
@@ -18,34 +20,13 @@ const Page: NextServerPage = async ({ params }) => {
     notFound()
   }
 
-  const product = await payload.findByID({
-    collection: "products",
-    depth: 2,
-    draft: true,
-    id: id,
-    disableErrors: true,
-  })
-
-  if (!product) {
-    notFound()
-  }
-
-  const prices = await payload.find({
-    collection: "prices",
-    draft: true,
-    depth: 0,
-    where: {
-      product: {
-        equals: id
-      }
-    }
-  })
+  const data = await getProductData(payload, id, true);
 
   return (
     <>
       <LivePreviewTrigger />
 
-      <ProductCard product={product} prices={prices.docs} />
+      <ProductCard {...data} />
     </>
   );
 }

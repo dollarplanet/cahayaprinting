@@ -5,40 +5,38 @@ import { isSameArray } from "@/utils/is-same-array";
 import { money } from "@/utils/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useForm, useWatch } from "react-hook-form";
+
+type OptionsType = {
+  variant: number;
+  options: {
+    label: string;
+    value: number;
+  }[];
+}
 
 type Props = {
-  product: Product,
-  prices: Price[],
+  product: Product;
+  prices: Price[];
+  variants: Variation[];
+  options: OptionsType[];
+  optionsDefault: { [key: string]: number };
 }
 
 export const ProductCard = (props: Props) => {
-  const [variants, setVariants] = useState([] as Variation[]);
-  const [selected, setSelected] = useState([] as number[]);
-  const [price, setPrice] = useState(undefined as number | undefined);
+  const { register, control } = useForm({
+    defaultValues: props.optionsDefault
+  });
+  const variantValue = useWatch({ control });
 
-  useEffect(() => {
-    const temps = [...(new Set(props.product.variant.subvariation.map(option =>
-      (option as Subvariation).variation as Variation
-    )))];
+  const selectedVariants = useCallback(() => {
+    return Object.values(variantValue).map(value => Number(value));
+  }, [variantValue]);
 
-    setVariants(temps);
-    setSelected(temps.map(tmp => {
-      return (props.product.variant.subvariation.find((option: any) => (option.variation as Variation).id === tmp.id) as Subvariation).id
-    }));
-
-  }, [props.product]);
-
-  useEffect(() => {
-    setPrice(props.prices.find(prc => isSameArray(prc.combinations, selected))?.price);
-  }, [props.prices, selected]);
-
-  useEffect(() => {
-    console.log("SUBVARIATION", props.product.variant.subvariation);
-    console.log("SELECTED", selected);
-    console.log("PRICES", props.prices.map((prc) => prc.combinations));
-    console.log("PRICE", price);
-  }, [selected, price, props.prices, props.product]);
+  const price = useCallback(() => {
+    return props.prices.find(prc => isSameArray(prc.combinations, selectedVariants()))?.price ?? 0
+  }, [selectedVariants, props.prices]);
 
   return (
     <div className="bg-gray-100">
@@ -63,7 +61,7 @@ export const ProductCard = (props: Props) => {
             </div>
 
             <p className="text-gray-600 mb-4">SKU: {props.product.sku}</p>
-            {Boolean(price) && <div className="text-2xl font-bold mr-2">{money(price!)}</div>}
+            {Boolean(price) && <div className="text-2xl font-bold mr-2">{money(price())}</div>}
             <div className="flex items-center mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                 className="size-6 text-yellow-500">
@@ -99,18 +97,24 @@ export const ProductCard = (props: Props) => {
 
             {Boolean(props.product.specification?.description) && <RichText className="prose prose-sm mb-4" data={props.product.specification?.description!} />}
 
-            {variants.map((variant, index) => (
-              <div key={index}>
-                <p>{variant.name}</p>
-                <select>
-                  {(props.product.variant.subvariation as Subvariation[])
-                    .filter(opt => (opt.variation as Variation).id === variant.id)
-                    .map((opt, index) =>
-                      <option key={index}>{opt.name}</option>
+            <form className="flex flex-col items-start gap-2 mb-2">
+              {props.variants.map((variant, index) => {
+                const option = props.options.find(opt => opt.variant === variant?.id);
+
+                if (!option) {
+                  return null;
+                }
+
+                return (<div key={index}>
+                  <label htmlFor={variant.id.toString()} className="block text-sm font-medium text-gray-900 dark:text-white">{variant.name}</label>
+                  <select {...register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {option.options.map((opt, index) =>
+                      <option value={opt.value} key={index}>{opt.label}</option>
                     )}
-                </select>
-              </div>
-            ))}
+                  </select>
+                </div>)
+              })}
+            </form>
 
             <div className="flex space-x-4 mb-6">
               <button
