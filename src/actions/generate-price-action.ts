@@ -23,12 +23,15 @@ export const generatePriceAction = async (productId: number) => {
 
   await payload.delete({
     collection: "prices",
+    disableTransaction: true,
     where: {
       product: {
         equals: productId
       }
     }
   })
+
+  console.log("PRICES COUNT", await payload.count({ collection: "prices", where: { product: { equals: productId } } }))
 
   if (subs.length === 0) return;
 
