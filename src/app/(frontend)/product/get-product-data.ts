@@ -4,22 +4,27 @@ import { BasePayload } from "payload";
 
 type Props = {
   payload: BasePayload;
-  id: string | number;
+  slug: string;
   draft: boolean;
 }
 
 export const getProductData = async (props: Props) => {
-  const product = await props.payload.findByID({
+  const products = await props.payload.find({
     collection: "products",
     depth: 2,
     draft: props.draft,
-    id: props.id,
-    disableErrors: true,
+    where: {
+      slug: {
+        equals: props.slug
+      }
+    }
   })
 
-  if (!product) {
+  if (products.docs.length === 0) {
     notFound()
   }
+
+  const product = products.docs[0]
 
   const prices = await props.payload.find({
     collection: "prices",
@@ -27,7 +32,7 @@ export const getProductData = async (props: Props) => {
     depth: 0,
     where: {
       product: {
-        equals: props.id
+        equals: product.id
       }
     }
   })

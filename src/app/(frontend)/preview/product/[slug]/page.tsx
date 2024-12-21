@@ -14,15 +14,15 @@ const Page: NextServerPage = async ({ params }) => {
     payload,
     headers: await headers(),
   });
-  const id = (await params).id
+  const slug = (await params).slug
 
-  if ((session.user === null) || (id === undefined)) {
+  if ((session.user === null) || (slug === undefined)) {
     notFound()
   }
 
   const data = await getProductData({
     draft: true,
-    id: id,
+    slug: slug,
     payload: payload,
   });
 
