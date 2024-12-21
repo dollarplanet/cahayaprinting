@@ -151,12 +151,12 @@ export interface Category {
  */
 export interface Product {
   id: number;
-  thumbnail?: (number | null) | Media;
   slug?: string | null;
   title?: string | null;
   name: string;
   category: (number | Category)[];
   sku?: string | null;
+  images?: (number | Media)[] | null;
   variant: {
     subvariation: (number | Subvariation)[];
   };
@@ -401,12 +401,12 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
-  thumbnail?: T;
   slug?: T;
   title?: T;
   name?: T;
   category?: T;
   sku?: T;
+  images?: T;
   variant?:
     | T
     | {

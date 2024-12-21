@@ -27,12 +27,6 @@ export const Products: CollectionConfig = {
         {
           label: "Detail",
           fields: [
-
-            {
-              type: "upload",
-              relationTo: "media",
-              name: "thumbnail",
-            },
             {
               name: "slug",
               type: "text",
@@ -116,6 +110,12 @@ export const Products: CollectionConfig = {
                   }
                 ]
               }
+            },
+            {
+              type: "upload",
+              relationTo: "media",
+              hasMany: true,
+              name: "images",
             },
           ]
         },

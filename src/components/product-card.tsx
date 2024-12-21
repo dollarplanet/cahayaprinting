@@ -47,8 +47,8 @@ export const ProductCard = (props: Props) => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap -mx-4">
 
-          {Boolean(props.product.thumbnail) && <div className="w-full md:w-1/2 px-4 relative min-h-96">
-            <Image width={0} height={0} src={(props.product.thumbnail as Media).url!} alt="Product" fill className="object-cover" />
+          {Boolean(props.product.images) && <div className="w-full md:w-1/2 px-4 relative min-h-96">
+            <Image width={0} height={0} src={(props.product.images![0] as Media).url!} alt="Product" fill className="object-cover" />
           </div>}
 
 
