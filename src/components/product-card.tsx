@@ -1,17 +1,45 @@
 "use client";
 
-import { Category, Media, Product, Variation } from "@/payload-types";
+import { Category, Media, Price, Product, Subvariation, Variation } from "@/payload-types";
+import { isSameArray } from "@/utils/is-same-array";
 import { money } from "@/utils/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 type Props = {
-  product: Product
+  product: Product,
+  prices: Price[],
 }
 
 export const ProductCard = (props: Props) => {
-  // const optionKeys = [...(new Set(props.product.variation.options.map(option => (option.variation as Variation).name)))];
-  console.log(props.product);
+  const [variants, setVariants] = useState([] as Variation[]);
+  const [selected, setSelected] = useState([] as number[]);
+  const [price, setPrice] = useState(undefined as number | undefined);
+
+  useEffect(() => {
+    const temps = [...(new Set(props.product.variant.subvariation.map(option =>
+      (option as Subvariation).variation as Variation
+    )))];
+
+    setVariants(temps);
+    setSelected(temps.map(tmp => {
+      return (props.product.variant.subvariation.find((option: any) => (option.variation as Variation).id === tmp.id) as Subvariation).id
+    }));
+
+  }, [props.product]);
+
+  useEffect(() => {
+    setPrice(props.prices.find(prc => isSameArray(prc.combinations, selected))?.price);
+  }, [props.prices, selected]);
+
+  useEffect(() => {
+    console.log("SUBVARIATION", props.product.variant.subvariation);
+    console.log("SELECTED", selected);
+    console.log("PRICES", props.prices.map((prc) => prc.combinations));
+    console.log("PRICE", price);
+  }, [selected, price, props.prices, props.product]);
+
   return (
     <div className="bg-gray-100">
       <div className="container mx-auto px-4 py-8">
@@ -35,7 +63,7 @@ export const ProductCard = (props: Props) => {
             </div>
 
             <p className="text-gray-600 mb-4">SKU: {props.product.sku}</p>
-            {/* {Boolean(props.product?.detail?.price) && <div className="text-2xl font-bold mr-2">{money(props.product.detail.price)}</div>} */}
+            {Boolean(price) && <div className="text-2xl font-bold mr-2">{money(price!)}</div>}
             <div className="flex items-center mb-4">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
                 className="size-6 text-yellow-500">
@@ -71,33 +99,18 @@ export const ProductCard = (props: Props) => {
 
             {Boolean(props.product.specification?.description) && <RichText className="prose prose-sm mb-4" data={props.product.specification?.description!} />}
 
-            {/* <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Color:</h3>
-              <div className="flex space-x-2">
-                <button
-                  className="w-8 h-8 bg-black rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
-                <button
-                  className="w-8 h-8 bg-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
-                <button
-                  className="w-8 h-8 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"></button>
+            {variants.map((variant, index) => (
+              <div key={index}>
+                <p>{variant.name}</p>
+                <select>
+                  {(props.product.variant.subvariation as Subvariation[])
+                    .filter(opt => (opt.variation as Variation).id === variant.id)
+                    .map((opt, index) =>
+                      <option key={index}>{opt.name}</option>
+                    )}
+                </select>
               </div>
-            </div> */}
-
-            {/* {optionKeys.map((optionKey, index) => {
-              return (
-                <div key={index}>
-                  <h3 className="text-lg font-semibold mb-2">{optionKey}</h3>
-                  <div className="flex space-x-2">
-                    <button
-                      className="w-8 h-8 bg-black rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black"></button>
-                    <button
-                      className="w-8 h-8 bg-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-300"></button>
-                    <button
-                      className="w-8 h-8 bg-blue-500 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"></button>
-                  </div>
-                </div>
-              )
-            })} */}
+            ))}
 
             <div className="flex space-x-4 mb-6">
               <button

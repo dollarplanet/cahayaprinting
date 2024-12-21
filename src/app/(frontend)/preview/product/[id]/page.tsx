@@ -30,11 +30,22 @@ const Page: NextServerPage = async ({ params }) => {
     notFound()
   }
 
+  const prices = await payload.find({
+    collection: "prices",
+    draft: true,
+    depth: 0,
+    where: {
+      product: {
+        equals: id
+      }
+    }
+  })
+
   return (
     <>
       <LivePreviewTrigger />
 
-      <ProductCard product={product} />
+      <ProductCard product={product} prices={prices.docs} />
     </>
   );
 }

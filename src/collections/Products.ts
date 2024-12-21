@@ -81,65 +81,16 @@ export const Products: CollectionConfig = {
               relationTo: "subvariations",
               required: true,
               hasMany: true,
-              hooks: {
-                afterChange: [
-                  async ({ value, originalDoc, req: { payload }, operation }) => {
-                    if ((operation === 'read') || (operation === 'create') || (originalDoc === undefined) || (value === undefined)) return;
-
-                    await payload.delete({
-                      collection: "prices",
-                      where: {
-                        product: {
-                          equals: originalDoc.id
-                        }
-                      }
-                    })
-
-                    if (value.length === 0) return;
-
-                    const subs = await payload.find({
-                      collection: "subvariations",
-                      depth: 1,
-                      where: {
-                        id: {
-                          in: value.map((v: any) => (typeof v === "number") ? v : v.id)
-                        }
-                      }
-                    });
-
-                    const tempHolder: Map<number, number[]> = new Map();
-
-                    for (const sub of subs.docs) {
-                      const key = (sub.variation as Variation).id;
-                      tempHolder.set((sub.variation as Variation).id, [...(tempHolder.get(key) ?? []), sub.id]);
-                    }
-
-                    const holder = Array.from(tempHolder.values()).filter((v) => (v.length > 0));
-
-                    const combo: number[][] = combos(holder);
-
-                    const prices: { combinations: number[], price: number, name: string, product: number }[] = combo.map((c) => {
-                      return {
-                        combinations: c,
-                        price: 99999999,
-                        product: originalDoc.id,
-                        name: c.map((c: any) => {
-                          const sub = subs.docs.find((sub) => sub.id === c);
-                          return `${(sub!.variation as Variation).name} ${sub!.name}`;
-                        }).join(", ")
-                      }
-                    })
-
-                    for (const price of prices) {
-                      await payload.create({
-                        collection: "prices",
-                        data: price,
-                      })
-                    }
-                  }
-                ],
-              }
             },
+            {
+              type: "ui",
+              name: "generatePrice",
+              admin: {
+                components: {
+                  Field: "/components/price-generator-button.tsx" 
+                }
+              }
+            }
           ]
         },
         {
