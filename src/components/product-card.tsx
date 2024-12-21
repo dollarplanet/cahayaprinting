@@ -22,21 +22,25 @@ type Props = {
   variants: Variation[];
   options: OptionsType[];
   optionsDefault: { [key: string]: number };
+  freeVariants: Variation[];
+  freeOptions: OptionsType[];
+  freeOptionsDefault: { [key: string]: number };
 }
 
 export const ProductCard = (props: Props) => {
-  const { register, control } = useForm({
+  const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
-  const variantValue = useWatch({ control });
+  const priceVariantValue = useWatch({ control: priceVariantForm.control });
 
-  const selectedVariants = useCallback(() => {
-    return Object.values(variantValue).map(value => Number(value));
-  }, [variantValue]);
+  const freeVariantForm = useForm({
+    defaultValues: props.optionsDefault
+  });
+  const freeVariantValue = useWatch({ control: freeVariantForm.control });
 
   const price = useCallback(() => {
-    return props.prices.find(prc => isSameArray(prc.combinations, selectedVariants()))?.price ?? 0
-  }, [selectedVariants, props.prices]);
+    return props.prices.find(prc => isSameArray(prc.combinations, Object.values(priceVariantValue).map(value => Number(value))))?.price ?? 0
+  }, [priceVariantValue, props.prices]);
 
   return (
     <div className="bg-gray-100">
@@ -107,7 +111,24 @@ export const ProductCard = (props: Props) => {
 
                 return (<div key={index}>
                   <label htmlFor={variant.id.toString()} className="block text-sm font-medium text-gray-900 dark:text-white">{variant.name}</label>
-                  <select {...register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <select {...priceVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    {option.options.map((opt, index) =>
+                      <option value={opt.value} key={index}>{opt.label}</option>
+                    )}
+                  </select>
+                </div>)
+              })}
+
+              {props.freeVariants.map((variant, index) => {
+                const option = props.freeOptions.find(opt => opt.variant === variant?.id);
+
+                if (!option) {
+                  return null;
+                }
+
+                return (<div key={index}>
+                  <label htmlFor={variant.id.toString()} className="block text-sm font-medium text-gray-900 dark:text-white">{variant.name}</label>
+                  <select {...freeVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {option.options.map((opt, index) =>
                       <option value={opt.value} key={index}>{opt.label}</option>
                     )}
