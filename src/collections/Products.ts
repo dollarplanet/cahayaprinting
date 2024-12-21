@@ -44,7 +44,6 @@ export const Products: CollectionConfig = {
             {
               name: "name",
               type: "text",
-              unique: true,
               required: true,
               hooks: {
                 beforeChange: [
