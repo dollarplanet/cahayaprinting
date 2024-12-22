@@ -67,6 +67,14 @@ export const Home: GlobalConfig = {
               name: "description",
             },
             {
+              type: "relationship",
+              name: "featuredProduct",
+              relationTo: "products",
+              required: true,
+              hasMany: true,
+              maxRows: 3,
+            },
+            {
               name: "buttonTitle",
               type: "text",
             }

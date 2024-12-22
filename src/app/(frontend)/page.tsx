@@ -1,12 +1,14 @@
+import { FiveStars } from "@/components/five-stars";
 import { Footer } from "@/components/footer";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { Testimonial } from "@/components/testimonial";
-import { Media } from "@/payload-types";
+import { Media, Product } from "@/payload-types";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utilities/current-session";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { headers } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 import { getPayload } from "payload";
 
 export const revalidate = 0;
@@ -85,17 +87,16 @@ const Page: NextServerPage = async ({ searchParams }) => {
           </div>
 
           <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-3 md:mt-16 lg:gap-x-12">
-            <div>
-              <Image width={0} height={0} className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-1.jpg" alt="" />
-            </div>
-
-            <div>
-              <Image width={0} height={0} className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-2.jpg" alt="" />
-            </div>
-
-            <div>
-              <Image width={0} height={0} className="w-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/team/6/team-member-3.jpg" alt="" />
-            </div>
+            {
+              data.featured.featuredProduct.map((product, index) => (
+                <Link href={`/product/${(product as Product).slug}`} key={index}>
+                  <Image width={0} height={0} className="w-full" src={((product as Product).images as Media[])[0].url!} alt="" />
+                  <p className="mt-4 text-lg font-bold">{(product as Product).name}</p>
+                  <FiveStars />
+                  <p className="text-md font-semibold">{(product as Product).sku}</p>
+                </Link>
+              ))
+            }
           </div>
 
           {Boolean(data.featured?.buttonTitle) && <div className="text-center">

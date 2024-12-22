@@ -552,7 +552,7 @@ export interface Home {
       buttonTitle?: string | null;
     };
   };
-  featured?: {
+  featured: {
     description?: {
       root: {
         type: string;
@@ -568,6 +568,7 @@ export interface Home {
       };
       [k: string]: unknown;
     } | null;
+    featuredProduct: (number | Product)[];
     buttonTitle?: string | null;
   };
   testimonials?: {
@@ -642,6 +643,7 @@ export interface HomeSelect<T extends boolean = true> {
     | T
     | {
         description?: T;
+        featuredProduct?: T;
         buttonTitle?: T;
       };
   testimonials?:
