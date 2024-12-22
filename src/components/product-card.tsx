@@ -49,24 +49,11 @@ export const ProductCard = (props: Props) => {
 
   return (
     <div className="bg-gray-100">
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex flex-wrap -mx-4">
-
-          {/* {Boolean(props.product.images) && <div className="w-full flex flex-col gap-1 items-stretch md:w-1/2 px-4 relative min-h-96">
-            <div className="w-full flex-1 relative">
-              <Image width={0} height={0} src={(props.product.images![selectedImage] as Media).url!} alt="Product" fill className="object-cover" />
-            </div>
-            <div className="flex items-stretch justify-stretch w-full h-36 gap-1">
-              {(props.product.images as Media[]).map((image, index) => (
-                <div onClick={() => setSelectedImage(index)} key={index} className="w-full relative h-full cursor-pointer">
-                  <Image width={0} height={0} src={image.url!} alt="Product" fill className="object-cover" />
-                </div>
-              ))}
-            </div>
-          </div>} */}
+      <div className="w-full py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Carousel slides={props.product.images!.map(image => (image as Media).url!)} options={OPTIONS} />
 
-          <div className="w-full md:w-1/2 px-4">
+          <div className="w-full px-4">
             <h2 className="text-3xl font-bold mb-2">{props.product.name}</h2>
 
             <div className="flex w-full flex-wrap gap-2">

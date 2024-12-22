@@ -47,7 +47,7 @@ export const Carousel: React.FC<PropType> = (props) => {
           <NextButton onClick={onNextButtonClick} disabled={nextBtnDisabled} />
         </div>
 
-        <div className="embla__dots gap-2">
+        <div className="embla__dots gap-2 pr-4">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}
