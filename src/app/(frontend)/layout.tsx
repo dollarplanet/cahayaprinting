@@ -3,6 +3,7 @@ import './embla.css'
 import { getPayload } from 'payload'
 import payloadConfig from '@/payload.config'
 import { HeaderComponent } from '@/components/header-component'
+import { Footer } from '@/components/footer'
 
 export const metadata = {
   title: 'Next.js',
@@ -27,6 +28,7 @@ export default async function RootLayout({
         <div>
           {children}
         </div>
+        <Footer profile={profile} />
       </body>
     </html>
   )

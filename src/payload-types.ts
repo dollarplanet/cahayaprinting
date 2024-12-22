@@ -624,7 +624,6 @@ export interface Profile {
     facebookLink?: string | null;
     instagramLink?: string | null;
     twitterLink?: string | null;
-    linkedInLink?: string | null;
   };
   updatedAt?: string | null;
   createdAt?: string | null;
@@ -730,7 +729,6 @@ export interface ProfileSelect<T extends boolean = true> {
         facebookLink?: T;
         instagramLink?: T;
         twitterLink?: T;
-        linkedInLink?: T;
       };
   updatedAt?: T;
   createdAt?: T;

@@ -40,7 +40,7 @@ export const HomeComponent = (props: Props) => {
           <div className="grid grid-cols-1 gap-6 mt-8 sm:grid-cols-3 md:mt-16 lg:gap-x-12">
             {
               props.data.featured.featuredProduct.map((product, index) => (
-                <Link href={`/product/${(product as Product).slug}`} key={index}>
+                <Link href={`/produk/${(product as Product).slug}`} key={index}>
                   <Image width={0} height={0} className="w-full" src={((product as Product).images as Media[])[0].url!} alt="" />
                   <p className="mt-4 text-lg font-bold">{(product as Product).name}</p>
                   <FiveStars />

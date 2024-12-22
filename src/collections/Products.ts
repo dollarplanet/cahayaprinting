@@ -12,7 +12,7 @@ export const Products: CollectionConfig = {
     useAsTitle: "name",
     livePreview: {
       url: ({ data }) => {
-        return process.env.NEXT_PUBLIC_SERVER_URL + "/preview/product/" + data.slug
+        return process.env.NEXT_PUBLIC_SERVER_URL + "/preview/produk/" + data.slug
       }
     }
   },

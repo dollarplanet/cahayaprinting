@@ -1,4 +1,4 @@
-import { getProductData } from "@/app/(frontend)/product/get-product-data";
+import { getProductData } from "@/app/(frontend)/produk/get-product-data";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { ProductCard } from "@/components/product-card";
 import payloadConfig from "@/payload.config";

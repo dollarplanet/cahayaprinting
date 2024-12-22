@@ -36,18 +36,17 @@ export const Profile: GlobalConfig = {
             {
               name: "facebookLink",
               type: "text",
+              defaultValue: "https://www.facebook.com/",
             },
             {
               name: "instagramLink",
               type: "text",
+              defaultValue: "https://www.instagram.com/",
             },
             {
               name: "twitterLink",
               type: "text",
-            },
-            {
-              name: "linkedInLink",
-              type: "text",
+              defaultValue: "https://www.x.com/",
             },
           ]
         }
