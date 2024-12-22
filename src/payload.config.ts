@@ -7,16 +7,18 @@ import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
-import { Users } from './collections/Users'
-import { Media } from './collections/Media'
-import { Home } from './globals/Home'
-import { Categories } from './collections/Categories'
-import { Products } from './collections/Products'
-import { Variations } from './collections/Variations'
-import { SubVariations } from './collections/SubVariations'
-import { Prices } from './collections/Prices'
+import { Users } from './collections/users'
+import { Media } from './collections/media'
+import { Categories } from './collections/categories'
+import { Products } from './collections/products'
+import { Variations } from './collections/variations'
+import { SubVariations } from './collections/subvariants'
+import { Prices } from './collections/prices'
 import { seoPlugin } from '@payloadcms/plugin-seo'
 import { searchPlugin } from '@payloadcms/plugin-search'
+import { Profile } from './globals/profile'
+import { Home } from './globals/home'
+import { PrivacyPolicy } from './globals/privacy-policy'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -29,7 +31,7 @@ export default buildConfig({
     },
   },
   collections: [Users, Media, Categories, Products, Variations, SubVariations, Prices],
-  globals: [Home],
+  globals: [Home, Profile, PrivacyPolicy],
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

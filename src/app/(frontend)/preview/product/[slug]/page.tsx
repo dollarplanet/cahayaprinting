@@ -1,7 +1,6 @@
 import { getProductData } from "@/app/(frontend)/product/get-product-data";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
 import { ProductCard } from "@/components/product-card";
-import { Subvariation, Variation } from "@/payload-types";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utilities/current-session";
 import { headers } from "next/headers";

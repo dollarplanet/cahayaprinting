@@ -14,12 +14,12 @@ export const generatePriceAction = async (productId: number) => {
     depth: 2,
     select: {
       variant: {
-        subvariation: true
+        priceVariation: true
       }
     }
   })
 
-  const subs = document?.variant?.subvariation as Subvariation[];
+  const subs = document?.variant?.priceVariation as Subvariation[];
 
   await payload.delete({
     collection: "prices",

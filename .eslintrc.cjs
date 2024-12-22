@@ -5,4 +5,10 @@ module.exports = {
     project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
+  ignorePatterns: ['**/*.d.ts', '**/*.config.js', '**/*.config.ts'],
+  plugins: ['unused-imports'],
+  rules: {
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': 'error',
+  },
 }

@@ -1,9 +1,5 @@
-import { Subvariation, Variation } from "@/payload-types";
-import { combos } from "@/utilities/combos";
 import { generateProductSlug } from "@/utilities/generate-product-slug";
 import { versionConfig } from "@/utilities/version-config";
-import { equal, notEqual } from "assert";
-import { PgTable } from "drizzle-orm/pg-core";
 import { CollectionConfig } from "payload";
 
 export const Products: CollectionConfig = {

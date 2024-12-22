@@ -1,12 +1,12 @@
 "use client";
 
-import { Category, Media, Price, Product, Subvariation, Variation } from "@/payload-types";
+import { Category, Media, Price, Product, Variation } from "@/payload-types";
 import { isSameArray } from "@/utilities/is-same-array";
 import { money } from "@/utilities/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { Carousel } from "./embla-carousel/carousel";
 import { FiveStars } from "./five-stars";
@@ -33,8 +33,6 @@ type Props = {
 const OPTIONS: EmblaOptionsType = {}
 
 export const ProductCard = (props: Props) => {
-  const [selectedImage, setSelectedImage] = useState(0)
-
   const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
@@ -43,7 +41,7 @@ export const ProductCard = (props: Props) => {
   const freeVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
-  const freeVariantValue = useWatch({ control: freeVariantForm.control });
+  // const freeVariantValue = useWatch({ control: freeVariantForm.control });
 
   const price = useCallback(() => {
     return props.prices.find(prc => isSameArray(prc.combinations, Object.values(priceVariantValue).map(value => Number(value))))?.price ?? 0

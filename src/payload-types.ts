@@ -52,9 +52,13 @@ export interface Config {
   };
   globals: {
     home: Home;
+    profile: Profile;
+    'privacy-policy': PrivacyPolicy;
   };
   globalsSelect: {
     home: HomeSelect<false> | HomeSelect<true>;
+    profile: ProfileSelect<false> | ProfileSelect<true>;
+    'privacy-policy': PrivacyPolicySelect<false> | PrivacyPolicySelect<true>;
   };
   locale: null;
   user: User & {
@@ -613,6 +617,51 @@ export interface Home {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile".
+ */
+export interface Profile {
+  id: number;
+  detail: {
+    logo?: (number | null) | Media;
+    name: string;
+    whatsapp: string;
+  };
+  socialMedia?: {
+    facebookLink?: string | null;
+    instagramLink?: string | null;
+    twitterLink?: string | null;
+    linkedInLink?: string | null;
+  };
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy".
+ */
+export interface PrivacyPolicy {
+  id: number;
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  _status?: ('draft' | 'published') | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "home_select".
  */
 export interface HomeSelect<T extends boolean = true> {
@@ -674,6 +723,41 @@ export interface HomeSelect<T extends boolean = true> {
         image?: T;
         keywords?: T;
       };
+  _status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile_select".
+ */
+export interface ProfileSelect<T extends boolean = true> {
+  detail?:
+    | T
+    | {
+        logo?: T;
+        name?: T;
+        whatsapp?: T;
+      };
+  socialMedia?:
+    | T
+    | {
+        facebookLink?: T;
+        instagramLink?: T;
+        twitterLink?: T;
+        linkedInLink?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "privacy-policy_select".
+ */
+export interface PrivacyPolicySelect<T extends boolean = true> {
+  content?: T;
   _status?: T;
   updatedAt?: T;
   createdAt?: T;
