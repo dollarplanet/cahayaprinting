@@ -28,7 +28,7 @@ export const Footer = (props: Props) => {
               </li>
 
               <li>
-                <Link href="#" title="" className="text-sm text-white transition-all duration-200 hover:text-opacity-80 focus:text-opacity-80"> Hubungi Kami </Link>
+                <Link href={"https://wa.me/" + props.profile.detail.whatsapp} title="" className="text-sm text-white transition-all duration-200 hover:text-opacity-80 focus:text-opacity-80"> Hubungi Kami </Link>
               </li>
             </ul>
 

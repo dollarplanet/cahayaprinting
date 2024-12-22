@@ -24,12 +24,21 @@ const Page: NextServerPage = async () => {
     slug: "home",
     draft: true,
   })
+    
+  const profile = await payload.findGlobal({
+    slug: "profile",
+    select: {
+      detail: {
+        whatsapp: true
+      }
+    },
+  })
 
   return (
     <>
       <LivePreviewTrigger />
 
-      <HomeComponent data={data} />
+      <HomeComponent data={data} whatsapp={profile?.detail?.whatsapp} />
     </>
   );
 }

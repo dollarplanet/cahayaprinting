@@ -26,7 +26,11 @@ export const Profile: GlobalConfig = {
             {
               name: "whatsapp",
               type: "text",
+              defaultValue: "6281234567890",
               required: true,
+              admin: {
+                description: "Tulis dengan format: 6281234567890 (awalan 62 tanpa tanda +)",
+              }
             },
           ]
         },

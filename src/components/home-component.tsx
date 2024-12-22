@@ -7,6 +7,7 @@ import { Testimonial } from "./testimonial";
 
 type Props = {
   data: Home;
+  whatsapp: string;
 }
 
 export const HomeComponent = (props: Props) => {
@@ -20,7 +21,7 @@ export const HomeComponent = (props: Props) => {
             </div>
             <div className="relative px-4 pt-24 pb-16 text-center sm:px-6 md:px-24 2xl:px-32 lg:py-24 lg:text-left">
               <RichText className="prose prose-lg" data={props.data.hero.description} />
-              {Boolean(props.data.hero.buttonTitle) && <a href="#" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.hero.buttonTitle}</a>}
+              {Boolean(props.data.hero.buttonTitle) && <Link href="/produk" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.hero.buttonTitle}</Link>}
             </div>
           </div>
           {Boolean(props.data.hero.image) && <div className="relative w-full overflow-hidden lg:order-1 h-96 lg:h-auto lg:w-5/12">
@@ -51,7 +52,7 @@ export const HomeComponent = (props: Props) => {
           </div>
 
           {Boolean(props.data.featured?.buttonTitle) && <div className="text-center">
-            <a href="#" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.featured?.buttonTitle}</a>
+            <Link href="/produk" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.featured?.buttonTitle}</Link>
           </div>}
         </div>
       </section>
@@ -96,7 +97,11 @@ export const HomeComponent = (props: Props) => {
             ))}
           </div>
 
-          <p className="text-center text-gray-600 textbase mt-9">{props.data.questions?.altText}</p>
+          <Link href={"https://wa.me/" + props.whatsapp} className="w-full">
+            <p className="text-center text-green-600 font-medium mt-9 w-full self-center">
+              {props.data.questions?.altText}
+            </p>
+          </Link>
         </div>
       </section>}</>
   )

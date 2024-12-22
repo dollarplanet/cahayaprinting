@@ -9,9 +9,18 @@ const Page: NextServerPage = async () => {
   const data = await payload.findGlobal({
     slug: "home",
   })
+  
+  const profile = await payload.findGlobal({
+    slug: "profile",
+    select: {
+      detail: {
+        whatsapp: true
+      }
+    },
+  })
 
   return (
-    <HomeComponent data={data} />
+    <HomeComponent data={data} whatsapp={profile?.detail?.whatsapp} />
   );
 }
 
