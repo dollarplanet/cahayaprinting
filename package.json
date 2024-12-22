@@ -24,6 +24,8 @@
     "@payloadcms/plugin-seo": "3.7.0",
     "@payloadcms/richtext-lexical": "3.7.0",
     "cross-env": "^7.0.3",
+    "embla-carousel": "^8.5.1",
+    "embla-carousel-react": "^8.5.1",
     "graphql": "^16.8.1",
     "next": "15.0.4",
     "payload": "latest",

@@ -1,4 +1,5 @@
 import './globals.css'
+import './embla.css'
 
 export const metadata = {
   title: 'Next.js',

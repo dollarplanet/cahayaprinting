@@ -4,9 +4,11 @@ import { Category, Media, Price, Product, Subvariation, Variation } from "@/payl
 import { isSameArray } from "@/utilities/is-same-array";
 import { money } from "@/utilities/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
+import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
+import { Carousel } from "./embla-carousel/carousel";
 
 type OptionsType = {
   variant: number;
@@ -27,7 +29,11 @@ type Props = {
   freeOptionsDefault: { [key: string]: number };
 }
 
+const OPTIONS: EmblaOptionsType = {}
+
 export const ProductCard = (props: Props) => {
+  const [selectedImage, setSelectedImage] = useState(0)
+
   const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
@@ -47,10 +53,19 @@ export const ProductCard = (props: Props) => {
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-wrap -mx-4">
 
-          {Boolean(props.product.images) && <div className="w-full md:w-1/2 px-4 relative min-h-96">
-            <Image width={0} height={0} src={(props.product.images![0] as Media).url!} alt="Product" fill className="object-cover" />
-          </div>}
-
+          {/* {Boolean(props.product.images) && <div className="w-full flex flex-col gap-1 items-stretch md:w-1/2 px-4 relative min-h-96">
+            <div className="w-full flex-1 relative">
+              <Image width={0} height={0} src={(props.product.images![selectedImage] as Media).url!} alt="Product" fill className="object-cover" />
+            </div>
+            <div className="flex items-stretch justify-stretch w-full h-36 gap-1">
+              {(props.product.images as Media[]).map((image, index) => (
+                <div onClick={() => setSelectedImage(index)} key={index} className="w-full relative h-full cursor-pointer">
+                  <Image width={0} height={0} src={image.url!} alt="Product" fill className="object-cover" />
+                </div>
+              ))}
+            </div>
+          </div>} */}
+          <Carousel slides={props.product.images!.map(image => (image as Media).url!)} options={OPTIONS} />
 
           <div className="w-full md:w-1/2 px-4">
             <h2 className="text-3xl font-bold mb-2">{props.product.name}</h2>
@@ -101,7 +116,7 @@ export const ProductCard = (props: Props) => {
 
             {Boolean(props.product.specification?.description) && <RichText className="prose prose-sm mb-4" data={props.product.specification?.description!} />}
 
-            <form className="flex flex-col items-start gap-2 mb-2">
+            <div className="flex flex-col items-start gap-2 mb-2">
               {props.variants.map((variant, index) => {
                 const option = props.options.find(opt => opt.variant === variant?.id);
 
@@ -135,7 +150,7 @@ export const ProductCard = (props: Props) => {
                   </select>
                 </div>)
               })}
-            </form>
+            </div>
 
             <div className="flex space-x-4 mb-6">
               <button
