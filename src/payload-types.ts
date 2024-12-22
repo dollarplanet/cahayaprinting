@@ -526,29 +526,23 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 export interface Home {
   id: number;
   hero: {
-    company?: {
-      logo?: (number | null) | Media;
-      name?: string | null;
-    };
-    content: {
-      image?: (number | null) | Media;
-      description: {
-        root: {
+    image?: (number | null) | Media;
+    description: {
+      root: {
+        type: string;
+        children: {
           type: string;
-          children: {
-            type: string;
-            version: number;
-            [k: string]: unknown;
-          }[];
-          direction: ('ltr' | 'rtl') | null;
-          format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-          indent: number;
           version: number;
-        };
-        [k: string]: unknown;
+          [k: string]: unknown;
+        }[];
+        direction: ('ltr' | 'rtl') | null;
+        format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+        indent: number;
+        version: number;
       };
-      buttonTitle?: string | null;
+      [k: string]: unknown;
     };
+    buttonTitle?: string | null;
   };
   featured: {
     description?: {
@@ -668,19 +662,9 @@ export interface HomeSelect<T extends boolean = true> {
   hero?:
     | T
     | {
-        company?:
-          | T
-          | {
-              logo?: T;
-              name?: T;
-            };
-        content?:
-          | T
-          | {
-              image?: T;
-              description?: T;
-              buttonTitle?: T;
-            };
+        image?: T;
+        description?: T;
+        buttonTitle?: T;
       };
   featured?:
     | T

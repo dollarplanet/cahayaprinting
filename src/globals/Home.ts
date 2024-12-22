@@ -10,7 +10,7 @@ export const Home: GlobalConfig = {
   },
   admin: {
     livePreview: {
-      url: process.env.NEXT_PUBLIC_SERVER_URL + "?preview=true",
+      url: process.env.NEXT_PUBLIC_SERVER_URL + "/preview",
     },
   },
   fields: [
@@ -21,40 +21,19 @@ export const Home: GlobalConfig = {
           name: "hero",
           fields: [
             {
-              type: "group",
-              name: "company",
-              fields: [
-                {
-                  name: "logo",
-                  type: "upload",
-                  relationTo: "media",
-                },
-                {
-                  name: "name",
-                  type: "text",
-                },
-              ]
+              name: "image",
+              type: "upload",
+              relationTo: "media",
             },
             {
-              type: "group",
-              name: "content",
-              fields: [
-                {
-                  name: "image",
-                  type: "upload",
-                  relationTo: "media",
-                },
-                {
-                  name: "description",
-                  type: "richText",
-                  required: true,
-                },
-                {
-                  name: "buttonTitle",
-                  type: "text",
-                },
-              ]
-            }
+              name: "description",
+              type: "richText",
+              required: true,
+            },
+            {
+              name: "buttonTitle",
+              type: "text",
+            },
           ]
         },
         {

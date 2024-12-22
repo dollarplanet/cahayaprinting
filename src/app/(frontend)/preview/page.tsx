@@ -1,6 +1,5 @@
-import { getProductData } from "@/app/(frontend)/product/get-product-data";
+import { HomeComponent } from "@/components/home-component";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
-import { ProductCard } from "@/components/product-card";
 import payloadConfig from "@/payload.config";
 import { currentSession } from "@/utilities/current-session";
 import { headers } from "next/headers";
@@ -9,29 +8,28 @@ import { getPayload } from "payload";
 
 export const revalidate = 0;
 
-const Page: NextServerPage = async ({ params }) => {
-  const payload = await getPayload({ config: payloadConfig })
+const Page: NextServerPage = async () => {
+  const payload = await getPayload({ config: payloadConfig });
+
   const session = await currentSession({
     payload,
     headers: await headers(),
   });
-  const slug = (await params).slug
+  
+    if (session.user === null) {
+      notFound()
+    }
 
-  if ((session.user === null) || (slug === undefined)) {
-    notFound()
-  }
-
-  const data = await getProductData({
+  const data = await payload.findGlobal({
+    slug: "home",
     draft: true,
-    slug: slug,
-    payload: payload,
-  });
+  })
 
   return (
     <>
       <LivePreviewTrigger />
 
-      <ProductCard {...data} />
+      <HomeComponent data={data} />
     </>
   );
 }
