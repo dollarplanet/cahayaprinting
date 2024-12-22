@@ -64,7 +64,7 @@ export default buildConfig({
         ]
 
         if (allowed.includes(true)) {
-          return doc?.thumbnail;
+          return doc?.images[0];
         }
 
       },

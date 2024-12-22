@@ -38,13 +38,13 @@ export const getProductData = async (props: Props) => {
   })
 
 
-  const variants = [...(new Set(product.variant.subvariation.map(option =>
+  const variants = [...(new Set(product.variant.priceVariation.map(option =>
     (option as Subvariation).variation as Variation
   )))];
 
   const options = variants.map(variant => ({
     variant: variant.id,
-    options: (product.variant.subvariation as Subvariation[])
+    options: (product.variant.priceVariation as Subvariation[])
       .filter(opt => (opt.variation as Variation).id === variant.id)
       .map((opt) => ({
         variant: variant.id,
@@ -60,13 +60,13 @@ export const getProductData = async (props: Props) => {
   }
 
 
-  const freeVariants = [...(new Set(product.freeOption.subvariation.map(option =>
+  const freeVariants = [...(new Set(product.variant.freeVariation?.map(option =>
     (option as Subvariation).variation as Variation
   )))];
 
   const freeOptions = freeVariants.map(variant => ({
     variant: variant.id,
-    options: (product.freeOption.subvariation as Subvariation[])
+    options: (product.variant.freeVariation as Subvariation[])
       .filter(opt => (opt.variation as Variation).id === variant.id)
       .map((opt) => ({
         variant: variant.id,

@@ -158,16 +158,14 @@ export interface Product {
   sku?: string | null;
   images?: (number | Media)[] | null;
   variant: {
-    subvariation: (number | Subvariation)[];
+    priceVariation: (number | Subvariation)[];
+    freeVariation?: (number | Subvariation)[] | null;
   };
   price?: {
     prices?: {
       docs?: (number | Price)[] | null;
       hasNextPage?: boolean | null;
     } | null;
-  };
-  freeOption: {
-    subvariation: (number | Subvariation)[];
   };
   specification?: {
     description?: {
@@ -410,17 +408,13 @@ export interface ProductsSelect<T extends boolean = true> {
   variant?:
     | T
     | {
-        subvariation?: T;
+        priceVariation?: T;
+        freeVariation?: T;
       };
   price?:
     | T
     | {
         prices?: T;
-      };
-  freeOption?:
-    | T
-    | {
-        subvariation?: T;
       };
   specification?:
     | T

@@ -7,7 +7,7 @@ const PriceGeneratorButton: React.FC = () => {
   const { id } = useDocumentInfo()
   const { submit } = useForm()
   const { formInitializing, formProcessing, value } = useField({
-    path: "variant.subvariation",
+    path: "variant.priceVariation",
   })
 
   const onClick = async () => {

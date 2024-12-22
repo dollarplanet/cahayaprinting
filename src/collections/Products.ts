@@ -124,7 +124,7 @@ export const Products: CollectionConfig = {
           fields: [
             {
               type: "relationship",
-              name: "subvariation",
+              name: "priceVariation",
               relationTo: "subvariations",
               required: true,
               hasMany: true,
@@ -137,6 +137,12 @@ export const Products: CollectionConfig = {
                   Field: "/components/price-generator-button.tsx"
                 }
               }
+            },            
+            {
+              type: "relationship",
+              name: "freeVariation",
+              relationTo: "subvariations",
+              hasMany: true,
             }
           ]
         },
@@ -153,18 +159,6 @@ export const Products: CollectionConfig = {
                 allowCreate: false
               }
             },
-          ]
-        },
-        {
-          name: "freeOption",
-          fields: [
-            {
-              type: "relationship",
-              name: "subvariation",
-              relationTo: "subvariations",
-              required: true,
-              hasMany: true,
-            }
           ]
         },
         {
