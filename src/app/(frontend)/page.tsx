@@ -1,4 +1,4 @@
-import { HomeComponent } from "@/components/home-component";
+import { HomeComponent } from "@/app/(frontend)/component";
 import payloadConfig from "@/payload.config";
 import { getPayload } from "payload";
 

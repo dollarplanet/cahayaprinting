@@ -8,6 +8,11 @@ export const PrivacyPolicy: GlobalConfig = {
   access: {
     update: isAdminOrEditor,
   },
+  admin: {
+    livePreview: {
+      url: process.env.NEXT_PUBLIC_SERVER_URL + "/preview/kebijakan-privasi",
+    },
+  },
   fields: [
     {
       type: "richText",

@@ -1,6 +1,6 @@
-import { getProductData } from "@/app/(frontend)/produk/get-product-data";
+import { getProductData } from "@/app/(frontend)/produk/[slug]/get-product-data";
 import { LivePreviewTrigger } from "@/components/live-preview-trigger";
-import { ProductCard } from "@/components/product-card";
+import { ProductComponent } from "@/app/(frontend)/produk/[slug]/component";
 import payloadConfig from "@/payload.config";
 import { notFound } from "next/navigation";
 import { getPayload } from "payload";
@@ -25,7 +25,7 @@ const Page: NextServerPage = async ({ params }) => {
     <>
       <LivePreviewTrigger />
 
-      <ProductCard {...data} />
+      <ProductComponent {...data} />
     </>
   );
 }

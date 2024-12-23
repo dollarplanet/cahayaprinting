@@ -5,7 +5,14 @@ const config = {
     "./src/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      minHeight: {
+        "view": ["100vh", "100dvh"],
+      },
+      height: {
+        "view": ["100vh", "100dvh"],
+      },
+    },
   },
   plugins: [
     require('@tailwindcss/typography'),

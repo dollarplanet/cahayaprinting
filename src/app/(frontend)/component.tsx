@@ -2,8 +2,8 @@ import { Home, Media, Product } from "@/payload-types"
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import Image from "next/image";
 import Link from "next/link";
-import { FiveStars } from "./five-stars";
-import { Testimonial } from "./testimonial";
+import { FiveStars } from "../../components/five-stars";
+import { Testimonial } from "../../components/testimonial";
 
 type Props = {
   data: Home;
@@ -14,7 +14,7 @@ export const HomeComponent = (props: Props) => {
   return (
     <>
       <section className="bg-yellow-50 overflow-hidden">
-        <div className="flex flex-col lg:flex-row lg:items-stretch lg:min-h-[800px]">
+        <div className="flex flex-col lg:flex-row lg:items-stretch lg:min-h-view">
           <div className="relative flex items-center justify-center w-full lg:order-2 lg:w-7/12">
             <div className="absolute bottom-0 right-0 hidden lg:block">
               <Image width={0} height={0} className="object-contain w-auto h-48" src="/images/curved-lines.png" alt="" />

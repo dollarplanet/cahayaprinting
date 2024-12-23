@@ -11,8 +11,8 @@ export const Footer = (props: Props) => {
     <section className="py-12 bg-gradient-to-r from-orange-600 to-red-600">
       <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center xl:flex xl:items-center xl:justify-between xl:text-left">
-          <div className="xl:flex xl:items-center xl:justify-start">
-            {Boolean(props.profile.detail.logo) && <Image width={0} height={0} className="w-auto h-8" src={(props.profile.detail.logo as Media).thumbnailURL!} alt="" />}
+          <div className="flex flex-col items-center xl:flex-row xl:items-center xl:justify-start">
+            {Boolean(props.profile.detail.logo) && <Image width={0} height={0} className="w-8 h-auto" src={(props.profile.detail.logo as Media).thumbnailURL!} alt="" />}
 
             <p className="mt-5 text-sm text-white xl:ml-6 xl:mt-0">© Copyright {(new Date().getFullYear())} {props.profile.detail.name}</p>
           </div>

@@ -8,8 +8,8 @@ import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import { useCallback } from "react";
 import { useForm, useWatch } from "react-hook-form";
-import { Carousel } from "./embla-carousel/carousel";
-import { FiveStars } from "./five-stars";
+import { Carousel } from "../../../../components/embla-carousel/carousel";
+import { FiveStars } from "../../../../components/five-stars";
 
 type OptionsType = {
   variant: number;
@@ -32,7 +32,7 @@ type Props = {
 
 const OPTIONS: EmblaOptionsType = {}
 
-export const ProductCard = (props: Props) => {
+export const ProductComponent = (props: Props) => {
   const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
   });

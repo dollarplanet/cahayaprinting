@@ -24,8 +24,8 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className='relative'>
-        <HeaderComponent profile={profile} />
-        <div>
+        <div className='min-h-view'>
+          <HeaderComponent profile={profile} />
           {children}
         </div>
         <Footer profile={profile} />
