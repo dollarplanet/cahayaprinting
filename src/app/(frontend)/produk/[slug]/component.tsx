@@ -48,7 +48,7 @@ export const ProductComponent = (props: Props) => {
   }, [priceVariantValue, props.prices]);
 
   return (
-    <div className="bg-gray-100">
+    <div className="bg-white">
       <div className="w-full py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Carousel slides={props.product.images!.map(image => (image as Media).url!)} options={OPTIONS} />
@@ -79,7 +79,7 @@ export const ProductComponent = (props: Props) => {
 
                 return (<div key={index}>
                   <label htmlFor={variant.id.toString()} className="block text-sm font-medium text-gray-900 dark:text-white">{variant.name}</label>
-                  <select {...priceVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <select {...priceVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {option.options.map((opt, index) =>
                       <option value={opt.value} key={index}>{opt.label}</option>
                     )}
@@ -96,7 +96,7 @@ export const ProductComponent = (props: Props) => {
 
                 return (<div key={index}>
                   <label htmlFor={variant.id.toString()} className="block text-sm font-medium text-gray-900 dark:text-white">{variant.name}</label>
-                  <select {...freeVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                  <select {...freeVariantForm.register(option.variant.toString())} defaultValue={option.options[0].value} id={variant.id.toString()} className="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                     {option.options.map((opt, index) =>
                       <option value={opt.value} key={index}>{opt.label}</option>
                     )}

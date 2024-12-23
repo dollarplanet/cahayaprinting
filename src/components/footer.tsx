@@ -32,7 +32,7 @@ export const Footer = (props: Props) => {
               </li>
             </ul>
 
-            <div className="w-full h-px mt-8 mb-5 xl:w-px xl:m-0 xl:h-6 bg-gray-50/20"></div>
+            <div className="w-full h-px mt-8 mb-5 xl:w-px xl:m-0 xl:h-6 bg-white/20"></div>
 
             <ul className="flex items-center justify-center space-x-8 xl:justify-end">
               {props.profile.socialMedia?.twitterLink && <li>

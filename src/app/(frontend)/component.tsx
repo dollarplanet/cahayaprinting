@@ -72,7 +72,7 @@ export const HomeComponent = (props: Props) => {
         </div>
       </section>}
 
-      {Boolean(props.data.questions?.questions) && (props.data.questions!.questions!.length > 0) && <section className="py-16 bg-gray-50">
+      {Boolean(props.data.questions?.questions) && (props.data.questions!.questions!.length > 0) && <section className="py-16 bg-white">
         <div className="px-4 mx-auto sm:px-6 lg:px-8 max-w-7xl">
           {Boolean(props.data.questions?.description) && <div className="w-full flex justify-center mx-auto text-center mb-8">
             <RichText className="prose prose-lg w-full" data={props.data.questions?.description!} />
@@ -80,7 +80,7 @@ export const HomeComponent = (props: Props) => {
 
           <div className="max-w-3xl mx-auto space-y-4">
             {props.data.questions?.questions!.map((question, index) => (
-              <div key={index} className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-gray-50">
+              <div key={index} className="transition-all duration-200 bg-white border border-gray-200 shadow-lg cursor-pointer hover:bg-white">
                 <input className="accordion-input" type="radio" name="accordion-1" id={`tab-${index + 1}`} />
                 <label htmlFor={`tab-${index + 1}`} className="flex items-center justify-between w-full px-4 py-5 sm:p-6">
                   <span className="flex text-lg font-semibold text-black">{question.question}</span>
