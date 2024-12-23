@@ -52,7 +52,7 @@ export const HomeComponent = (props: Props) => {
           </div>
 
           {Boolean(props.data.featured?.buttonTitle) && <div className="text-center">
-            <Link href="/produk" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.featured?.buttonTitle}</Link>
+            <Link prefetch={false} href="/produk" title="" className="inline-flex items-center justify-center px-5 py-2.5 text-base font-semibold transition-all duration-200 rounded-full bg-orange-500 text-white hover:bg-orange-600 focus:bg-orange-600 mt-16 cursor-pointer" role="button">{props.data.featured?.buttonTitle}</Link>
           </div>}
         </div>
       </section>

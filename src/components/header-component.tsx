@@ -18,7 +18,7 @@ export const HeaderComponent = (props: Props) => {
             </Link>
           </div>
           <div className="ml-auto lg:flex lg:items-center lg:justify-center lg:space-x-10">
-            <Link href="/produk" title="" className="text-base font-semibold text-black transition-all duration-200 hover:text-opacity-80"> Katalog </Link>
+            <Link prefetch={false} href="/produk" title="" className="text-base font-semibold text-black transition-all duration-200 hover:text-opacity-80"> Katalog </Link>
           </div>
         </div>
       </div>

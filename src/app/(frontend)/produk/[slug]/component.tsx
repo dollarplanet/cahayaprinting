@@ -5,11 +5,11 @@ import { isSameArray } from "@/utilities/is-same-array";
 import { money } from "@/utilities/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { EmblaOptionsType } from "embla-carousel";
-import Image from "next/image";
 import { useCallback } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { Carousel } from "../../../../components/embla-carousel/carousel";
 import { FiveStars } from "../../../../components/five-stars";
+import { CategoryChip } from "@/components/category-chip";
 
 type OptionsType = {
   variant: number;
@@ -58,10 +58,7 @@ export const ProductComponent = (props: Props) => {
 
             <div className="flex w-full flex-wrap gap-2">
               {(props.product.category as Category[]).map((category, index) => (
-                <div key={index} className="rounded-md bg-gray-300 flex items-center gap-1 py-1 px-2.5 border border-transparent text-sm text-gray-700 font-semibold transition-all shadow-sm mb-2">
-                  {Boolean(category.thumbnail) && <Image alt={category.name} width={0} height={0} src={(category.thumbnail as Media).sizes?.thumbnail?.url!} className="rounded-full w-5 h-5 object-cover" />}
-                  {category.name}
-                </div>
+                <CategoryChip key={index} category={category} />
               ))}
             </div>
 

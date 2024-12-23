@@ -1,7 +1,11 @@
-export const FiveStars = () => {
+type Props = {
+  scale?: number
+}
+
+export const FiveStars = (props: Props) => {
   return (
 
-    <div className="flex items-center mb-4">
+    <div className="flex items-center mb-4" style={{scale: props.scale, transformOrigin: "left"}}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"
         className="size-6 text-yellow-500">
         <path fillRule="evenodd"
