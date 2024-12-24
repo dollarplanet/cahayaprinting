@@ -63,7 +63,7 @@ export const ProductComponent = (props: Props) => {
             </div>
 
             <p className="text-gray-600 mb-4">SKU: {props.product.sku}</p>
-            {Boolean(price) && <div className="text-2xl font-bold mr-2">{money(price())}</div>}
+            {Boolean(price) && <div className="text-2xl font-bold mr-2 text-orange-700">{money(price())}</div>}
 
             <FiveStars />
 
