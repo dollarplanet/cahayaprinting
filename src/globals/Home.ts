@@ -49,7 +49,6 @@ export const Home: GlobalConfig = {
               relationTo: "products",
               required: true,
               hasMany: true,
-              maxRows: 3,
             },
             {
               name: "buttonTitle",
