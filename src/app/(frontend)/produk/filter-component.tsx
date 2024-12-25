@@ -12,9 +12,7 @@ export const FilterComponent = (props: Props) => {
   const searchParams = useSearchParams();
 
   return (
-    <div className="w-full md:w-3/12 p-8 md:p-4 md:pr-0 text-sm">
-      <h2 className="font-bold text-base mb-4">Filter</h2>
-
+    <>
       <form className="mb-4 max-w-sm" action="/produk" method="get">
         <div className="relative">
           <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -77,7 +75,7 @@ export const FilterComponent = (props: Props) => {
       </div>
 
       <h2 className="font-semibold mb-2 mt-8">Kategori</h2>
-      <div className="grid text-xs grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-2 p-4 bg-gray-100 rounded">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-2 p-4 text-xs bg-gray-100 rounded">
         {props.categories.map((category) => (
           <div key={category.id} className={`text-gray-600 hover:scale-105 ${(searchParams.get("category") === category.id.toString()) ? "font-semibold text-orange-600" : ""}`}>
             <Link scroll={false} prefetch={false} href={`?category=${category.id}`}>
@@ -86,6 +84,6 @@ export const FilterComponent = (props: Props) => {
           </div>
         ))}
       </div>
-    </div>
+    </>
   );
 }
