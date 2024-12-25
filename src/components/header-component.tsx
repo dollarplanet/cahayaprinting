@@ -3,7 +3,7 @@
 import { Media, Profile } from "@/payload-types";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { FormEvent } from "react";
 
 type Props = {
@@ -12,6 +12,7 @@ type Props = {
 
 export const HeaderComponent = (props: Props) => {
   const router = useRouter();
+  const pathname = usePathname();
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -31,7 +32,7 @@ export const HeaderComponent = (props: Props) => {
             </Link>
           </div>
 
-          <form onSubmit={handleSearch} className="sm:flex py-4 sm:items-center sm:justify-center sm:w-1/2 lg:flex lg:items-center lg:justify-center lg:w-1/3" action="/produk" method="get">
+          {(pathname !== "/produk") && <form onSubmit={handleSearch} className="sm:flex py-4 sm:items-center sm:justify-center sm:w-1/2 lg:flex lg:items-center lg:justify-center lg:w-1/3" action="/produk" method="get">
             <input
               className="w-full px-4 py-2 rounded-md bg-white border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               type="search"
@@ -39,7 +40,7 @@ export const HeaderComponent = (props: Props) => {
               name="q"
               placeholder="Cari produk"
             />
-          </form>
+          </form>}
 
           <div className="ml-auto lg:flex lg:items-center lg:justify-center lg:space-x-10 text-base font-bold text-black ">
             <Link prefetch={false} href="/produk" title="" className="transition-all duration-200 hover:text-opacity-80"> KATALOG </Link>

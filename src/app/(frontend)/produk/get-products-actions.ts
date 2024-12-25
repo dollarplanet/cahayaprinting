@@ -1,14 +1,11 @@
-import payloadConfig from "@/payload.config"
-import { getPayload } from "payload"
+import { BasePayload } from "payload"
 
-export const getProductsActions = async (searchParams: ServerSearchParamsType) => {
-  const payload = await getPayload({ config: payloadConfig })
-
+export const getProductsActions = async (payload: BasePayload, searchParams: ServerSearchParamsType) => {
   const data = await payload.find({
     collection: "products",
     depth: 2,
     where: {
-      title: {  
+      title: {
         like: `%${(await searchParams).query ?? ""}%`
       }
     },
