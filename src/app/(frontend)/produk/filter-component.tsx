@@ -77,10 +77,10 @@ export const FilterComponent = (props: Props) => {
       </div>
 
       <h2 className="font-semibold mb-2 mt-8">Kategori</h2>
-      <div className="grid text-xs grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-1 p-4 bg-gray-100 rounded">
+      <div className="grid text-xs grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-2 p-4 bg-gray-100 rounded">
         {props.categories.map((category) => (
           <div key={category.id} className={`text-gray-600 hover:scale-105 ${(searchParams.get("category") === category.id.toString()) ? "font-semibold text-orange-600" : ""}`}>
-            <Link href={`?category=${category.id}`}>
+            <Link scroll={false} prefetch={false} href={`?category=${category.id}`}>
               <p>{category.name}</p>
             </Link>
           </div>
