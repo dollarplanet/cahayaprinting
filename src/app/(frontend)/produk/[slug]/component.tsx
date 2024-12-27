@@ -49,11 +49,11 @@ export const ProductComponent = (props: Props) => {
 
   return (
     <div className="bg-white">
-      <div className="w-full py-8">
+      <div className="w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Carousel slides={props.product.images!.map(image => (image as Media).url!)} options={OPTIONS} />
 
-          <div className="w-full px-4">
+          <div className="w-full px-4 md:pt-8">
             <h2 className="text-3xl font-bold mb-2">{props.product.name}</h2>
 
             <div className="flex w-full flex-wrap gap-2">
