@@ -9,8 +9,6 @@ type Props = {
 }
 
 export const getProductData = async (props: Props) => {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
-
   const products = await props.payload.find({
     collection: "products",
     depth: 2,
