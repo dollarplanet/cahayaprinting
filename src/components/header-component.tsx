@@ -1,10 +1,11 @@
 "use client";
 
+import { CheckoutSidebarContext } from "@/app/(frontend)/checkout-sidebar-context";
 import { Media, Profile } from "@/payload-types";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FormEvent } from "react";
+import { FormEvent, useContext } from "react";
 
 type Props = {
   profile: Profile
@@ -13,6 +14,9 @@ type Props = {
 export const HeaderComponent = (props: Props) => {
   const router = useRouter();
   const pathname = usePathname();
+  const {isOpen, setIsOpen} = useContext(CheckoutSidebarContext)!;
+
+  const handleToggleSidebar = () => setIsOpen(!isOpen);
 
   const handleSearch = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -45,11 +49,11 @@ export const HeaderComponent = (props: Props) => {
           <div className="ml-auto lg:flex lg:items-center lg:justify-center lg:space-x-10 text-base font-bold text-black ">
             <Link prefetch={false} href="/produk" title="" className="transition-all duration-200 hover:text-opacity-80"> KATALOG </Link>
           </div>
-          <Link prefetch={false} href="/keranjang" title="Keranjang" className="transition-all duration-200 hover:text-opacity-80">
+          <button type="button" onClick={handleToggleSidebar} className="transition-all duration-200 hover:text-opacity-80">
             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
-          </Link>
+          </button>
         </div>
       </div>
     </header>

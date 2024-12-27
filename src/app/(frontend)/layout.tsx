@@ -4,6 +4,8 @@ import { getPayload } from 'payload'
 import payloadConfig from '@/payload.config'
 import { HeaderComponent } from '@/components/header-component'
 import { Footer } from '@/components/footer'
+import { CheckoutSidebarProvider } from './checkout-sidebar-context'
+import { CheckoutSidebar } from '@/components/checkout-sidebar'
 
 export const metadata = {
   title: 'Next.js',
@@ -23,12 +25,17 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className='relative'>
-        <div className='min-h-view'>
-          <HeaderComponent profile={profile} />
-          {children}
-        </div>
-        <Footer profile={profile} />
+      <body>
+        <CheckoutSidebarProvider>
+          <div className='relative'>
+            <div className='min-h-view'>
+              <HeaderComponent profile={profile} />
+              {children}
+            </div>
+            <Footer profile={profile} />
+            <CheckoutSidebar />
+          </div>
+        </CheckoutSidebarProvider>
       </body>
     </html>
   )
