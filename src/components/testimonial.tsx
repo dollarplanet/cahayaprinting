@@ -1,16 +1,18 @@
+import Image from "next/image";
+
 type Props = {
   description: string;
   name: string;
   company?: string | null;
 };
 
-export const Testimonial = (props: Props) => {
+export const Testimonial = ({}: Props) => {
   return (
     <div className="max-w-6xl px-4 mx-auto sm:px-6 lg:px-8">
       <div className="grid items-center grid-cols-1 lg:items-stretch md:grid-cols-2 gap-y-8 gap-x-12 xl:gap-x-20">
         <div className="relative">
           <div className="aspect-w-4 aspect-h-3">
-            <img className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/testimonials/5/man-using-phone.jpg" alt="" />
+            <Image width={0} height={0} className="object-cover w-full h-full" src="https://cdn.rareblocks.xyz/collection/celebration/images/testimonials/5/man-using-phone.jpg" alt="" />
           </div>
         </div>
 

@@ -3,11 +3,12 @@ import { Suspense } from "react";
 import { FilterSkeleton } from "./filter-skeleton";
 import { ProductSuspense } from "./product-suspense";
 import ProductSkeleton from "./product-skeleton";
+import Image from "next/image";
 
 const Page: NextServerPage = async ({ searchParams }) => {
   return (
     <div>
-      <img src="https://cdn.pixabay.com/photo/2017/06/24/23/52/train-2439246_960_720.jpg" className="w-full h-96 object-cover mb-4" />
+      <Image alt="image" width={0} height={0} src="https://cdn.pixabay.com/photo/2017/06/24/23/52/train-2439246_960_720.jpg" className="w-full h-96 object-cover mb-4" />
       <div className="flex flex-col md:flex-row w-full">
 
         <div className="w-full md:w-3/12 p-8 pb-4 md:p-4 md:pr-0 text-sm">

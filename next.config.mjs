@@ -10,6 +10,18 @@ const nextConfig = {
         hostname: 'cdn.rareblocks.xyz',
         port: '80',
         pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.pixabay.com',
+        port: '80',
+        pathname: '/**'
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.rareblocks.xyz',
+        port: '80',
+        pathname: '/**'
       }
     ]
   }

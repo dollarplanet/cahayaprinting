@@ -29,19 +29,47 @@ export const FilterComponent = (props: Props) => {
     const min = data.min;
     const max = data.max;
 
-    if (searchParams.get("category")) {
-      router.push(`?query=${query}&min=${min}&max=${max}&category=${searchParams.get("category")}`);
-    } else {
-      router.push(`?query=${query}&min=${min}&max=${max}`);
+    let queryString = "?";
+
+    if (query) {
+      queryString += `&query=${query}`;
     }
+
+    if (min) {
+      queryString += `&min=${min}`;
+    }
+
+    if (max) {
+      queryString += `&max=${max}`;
+    }
+
+    if(searchParams.get("category")) {
+      queryString += `&category=${searchParams.get("category")}`;
+    }
+
+    router.push(queryString);
   }
 
   const onCategoryClick = (id: number | undefined) => {
-    if (id) {
-      router.push(`?query=${filterValue.query}&min=${filterValue.min}&max=${filterValue.max}&category=${id}`);
-    } else {
-      router.push(`?query=${filterValue.query}&min=${filterValue.min}&max=${filterValue.max}`);
+    let queryString = "?";
+
+    if (filterValue.query) {
+      queryString += `&query=${filterValue.query}`;
     }
+
+    if (filterValue.min) {
+      queryString += `&min=${filterValue.min}`;
+    }
+
+    if (filterValue.max) {
+      queryString += `&max=${filterValue.max}`;
+    }
+
+    if(id) {
+      queryString += `&category=${id}`;
+    }
+
+    router.push(queryString);
   }
 
   return (
