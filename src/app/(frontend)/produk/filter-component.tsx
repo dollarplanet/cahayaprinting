@@ -23,8 +23,6 @@ export const FilterComponent = (props: Props) => {
   const filterValue = useWatch({ control: control });
 
   const onSubmit = (data: any) => {
-    console.log([...searchParams.entries()]);
-
     const query = data.query;
     const min = data.min;
     const max = data.max;
