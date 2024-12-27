@@ -621,7 +621,7 @@ export interface Profile {
   id: number;
   detail: {
     logo?: (number | null) | Media;
-    name: string;
+    name?: string | null;
     whatsapp: string;
   };
   socialMedia?: {

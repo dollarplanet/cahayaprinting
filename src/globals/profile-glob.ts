@@ -21,7 +21,6 @@ export const Profile: GlobalConfig = {
             {
               name: "name",
               type: "text",
-              required: true,
             },
             {
               name: "whatsapp",

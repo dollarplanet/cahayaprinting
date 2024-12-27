@@ -27,7 +27,7 @@ export const HeaderComponent = (props: Props) => {
         <div className="flex items-center justify-between h-12 lg:h-16 gap-4">
           <div className="flex-shrink-0">
             <Link href="/" title="" className="flex gap-2">
-              {Boolean(props.profile.detail.logo) && <Image width={0} height={0} className="w-auto h-6" src={(props.profile.detail.logo as Media).url!} alt="" />}
+              {Boolean(props.profile.detail.logo) && <Image width={0} height={0} className="w-auto h-6 md:h-8" src={(props.profile.detail.logo as Media).url!} alt="" />}
               <p className="text-lg font-semibold hidden md:block">{props.profile.detail.name}</p>
             </Link>
           </div>
