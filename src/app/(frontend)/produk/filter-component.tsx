@@ -72,7 +72,7 @@ export const FilterComponent = (props: Props) => {
 
   return (
     <>
-      <div onClick={() => setOpened(!opened)} className="cursor-pointer flex justify-between mb-4 border-b border-b-gray-400 pb-2 bg-gray-200 rounded p-2">
+      <div onClick={() => setOpened(!opened)} className="cursor-pointer flex justify-between border-b border-b-gray-400 pb-2 bg-gray-200 p-2">
         <div className="flex items-center justify-start gap-2">
           <svg xmlns="http://www.w3.org/2000/svg" className={`h-6 md:hidden text-gray-600 w-6 ${opened ? "rotate-180" : ""}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -83,7 +83,7 @@ export const FilterComponent = (props: Props) => {
         <button type="submit" form="filter-form" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-1 rounded-md">Terapkan</button>
       </div>
 
-      {<div className={`w-full bg-gray-100 rounded transition-all md:max-h-none overflow-hidden px-2 md:py-2 ${opened ? "py-2" : "max-h-0"}`}>
+      {<div className={`w-full bg-gray-100 transition-all md:max-h-none overflow-hidden px-2 md:py-4 ${opened ? "py-4" : "max-h-0"}`}>
         <form id="filter-form" onSubmit={handleSubmit(onSubmit)}>
           <div className="mb-4 max-w-sm">
             <div className="relative">
