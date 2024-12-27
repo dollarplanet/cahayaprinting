@@ -2,7 +2,7 @@ import { FilterSuspense } from "./filter-suspense";
 import { Suspense } from "react";
 import { FilterSkeleton } from "./filter-skeleton";
 import { ProductSuspense } from "./product-suspense";
-import ProductSkeleton from "./product-skeleton";
+import {ProductSkeleton} from "./product-skeleton";
 import Image from "next/image";
 
 const Page: NextServerPage = async ({ searchParams }) => {

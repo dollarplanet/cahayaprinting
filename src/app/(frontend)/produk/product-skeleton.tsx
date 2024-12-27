@@ -1,6 +1,6 @@
 import { Skeleton } from "@/components/skeleton";
 
-export default function ProductSkeleton() {
+export const ProductSkeleton = () => {
   return (
     <div className="w-full max-w-[240px] rounded-lg border bg-card p-3 shadow-sm">
       {/* Image skeleton */}
