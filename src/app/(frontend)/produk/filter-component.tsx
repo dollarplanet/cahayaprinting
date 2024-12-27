@@ -1,10 +1,8 @@
 "use client";
 
 import { Category } from "@/payload-types"
-import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
-import { useForm } from "react-hook-form";
+import { useForm, useWatch } from "react-hook-form";
 
 type Props = {
   categories: Category[]
@@ -13,17 +11,14 @@ type Props = {
 export const FilterComponent = (props: Props) => {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { register, handleSubmit } = useForm({
+  const { register, handleSubmit, control } = useForm({
     defaultValues: {
       query: searchParams.get("query") ?? undefined,
       min: searchParams.get("min") ?? undefined,
       max: searchParams.get("max") ?? undefined,
     }
   })
-
-  const paramsString = useCallback(() => {
-    return "?" + [...[...searchParams.entries()].filter(([key]) => key !== "category")].map(([key, value]) => `${key}=${value}`).join("&");
-  }, [searchParams]);
+  const filterValue = useWatch({ control: control });
 
   const onSubmit = (data: any) => {
     console.log([...searchParams.entries()]);
@@ -32,7 +27,19 @@ export const FilterComponent = (props: Props) => {
     const min = data.min;
     const max = data.max;
 
-    router.push(`/produk?query=${query}&min=${min}&max=${max}&category=${searchParams.get("category")}`);
+    if (searchParams.get("category")) {
+      router.push(`?query=${query}&min=${min}&max=${max}&category=${searchParams.get("category")}`);
+    } else {
+      router.push(`?query=${query}&min=${min}&max=${max}`);
+    }
+  }
+
+  const onCategoryClick = (id: number | undefined) => {
+    if (id) {
+      router.push(`?query=${filterValue.query}&min=${filterValue.min}&max=${filterValue.max}&category=${id}`);
+    } else {
+      router.push(`?query=${filterValue.query}&min=${filterValue.min}&max=${filterValue.max}`);
+    }
   }
 
   return (
@@ -100,13 +107,16 @@ export const FilterComponent = (props: Props) => {
       </form>
 
       <h2 className="font-semibold mb-2 mt-8">Kategori</h2>
-      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-2 p-4 text-xs bg-gray-100 rounded">
+      <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-1 lg:grid-cols-2 gap-2 p-4 text-xs bg-gray-100 rounded text-left">
+
+        <button onClick={() => onCategoryClick(undefined)} className={`text-gray-600 text-left hover:scale-105 ${([null, undefined, ""].includes(searchParams.get("category"))) ? "font-semibold text-orange-600" : ""}`}>
+          <p>Semua</p>
+        </button>
+
         {props.categories.map((category) => (
-          <div key={category.id} className={`text-gray-600 hover:scale-105 ${(searchParams.get("category") === category.id.toString()) ? "font-semibold text-orange-600" : ""}`}>
-            <Link scroll={false} prefetch={false} href={`${paramsString()}&category=${category.id}`}>
-              <p>{category.name}</p>
-            </Link>
-          </div>
+          <button onClick={() => onCategoryClick(category.id)} key={category.id} className={`text-gray-600 text-left hover:scale-105 ${(searchParams.get("category") === category.id.toString()) ? "font-semibold text-orange-600" : ""}`}>
+            <p>{category.name}</p>
+          </button>
         ))}
       </div>
     </>

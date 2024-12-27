@@ -1,14 +1,26 @@
-import { BasePayload } from "payload"
+import { BasePayload, Where } from "payload"
 
 export const getProductsActions = async (payload: BasePayload, searchParams: ServerSearchParamsType) => {
+  const params = await searchParams;
+
+  const where: Where = {}
+
+  if (params.query) {
+    where.title = {
+      like: `%${params.query}%`
+    }
+  }
+
+  if (params.category) {
+    where.category = {
+      in: params.category
+    }
+  }
+
   const data = await payload.find({
     collection: "products",
     depth: 2,
-    where: {
-      title: {
-        like: `%${(await searchParams).query ?? ""}%`
-      }
-    },
+    where: where,
     select: {
       name: true,
       slug: true,
