@@ -153,8 +153,22 @@ export const Products: CollectionConfig = {
               admin: {
                 disableListColumn: true,
                 allowCreate: false
+              },
+            },
+            {
+              type: "number",
+              name: "minPrice",
+              admin: {
+                hidden: true
               }
             },
+            {
+              type: "number",
+              name: "maxPrice",
+              admin: {
+                hidden: true
+              }
+            }
           ]
         },
         {

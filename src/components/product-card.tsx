@@ -7,8 +7,6 @@ import { GetProductsActionsItem } from "@/app/(frontend)/produk/get-products-act
 
 export type ProductCardProps = {
   product: GetProductsActionsItem;
-  minPrice: number;
-  maxPrice: number;
 }
 
 export const ProductCard = (props: ProductCardProps) => {
@@ -24,7 +22,7 @@ export const ProductCard = (props: ProductCardProps) => {
         <p className="text-gray-600 font-medium text-xs">{props.product.sku}</p>
 
         <div className="mt-1 text-orange-700 text-xs font-semibold text-wrap line-clamp-1">
-          <span>{money(props.minPrice)} - {money(props.maxPrice)}</span>
+          <span>{money(props.product.price?.minPrice ?? 0)} - {money(props.product.price?.maxPrice ?? 0)}</span>
         </div>
       </div>
     </Link>

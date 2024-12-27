@@ -170,6 +170,8 @@ export interface Product {
       docs?: (number | Price)[] | null;
       hasNextPage?: boolean | null;
     } | null;
+    minPrice?: number | null;
+    maxPrice?: number | null;
   };
   specification?: {
     description?: {
@@ -419,6 +421,8 @@ export interface ProductsSelect<T extends boolean = true> {
     | T
     | {
         prices?: T;
+        minPrice?: T;
+        maxPrice?: T;
       };
   specification?:
     | T
