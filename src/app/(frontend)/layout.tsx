@@ -6,6 +6,7 @@ import { HeaderComponent } from '@/components/header-component'
 import { Footer } from '@/components/footer'
 import { CheckoutSidebarProvider } from './checkout-sidebar-context'
 import { CheckoutSidebar } from '@/components/checkout-sidebar'
+import { CartCountProvider } from './cart-count-context'
 
 export const metadata = {
   title: 'Next.js',
@@ -27,14 +28,16 @@ export default async function RootLayout({
     <html lang="en">
       <body>
         <CheckoutSidebarProvider>
-          <div className='relative'>
-            <div className='min-h-view'>
-              <HeaderComponent profile={profile} />
-              {children}
+          <CartCountProvider>
+            <div className='relative'>
+              <div className='min-h-view'>
+                <HeaderComponent profile={profile} />
+                {children}
+              </div>
+              <Footer profile={profile} />
+              <CheckoutSidebar />
             </div>
-            <Footer profile={profile} />
-            <CheckoutSidebar />
-          </div>
+          </CartCountProvider>
         </CheckoutSidebarProvider>
       </body>
     </html>

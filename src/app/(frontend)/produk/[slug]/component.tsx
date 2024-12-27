@@ -5,11 +5,12 @@ import { isSameArray } from "@/utilities/is-same-array";
 import { money } from "@/utilities/money";
 import { RichText } from "@payloadcms/richtext-lexical/react";
 import { EmblaOptionsType } from "embla-carousel";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import { useForm, useWatch } from "react-hook-form";
 import { Carousel } from "../../../../components/embla-carousel/carousel";
 import { FiveStars } from "../../../../components/five-stars";
 import { CategoryChip } from "@/components/category-chip";
+import { CartCountContext } from "../../cart-count-context";
 
 type OptionsType = {
   variant: number;
@@ -33,6 +34,8 @@ type Props = {
 const OPTIONS: EmblaOptionsType = {}
 
 export const ProductComponent = (props: Props) => {
+  const {reloadCartCount} = useContext(CartCountContext)!;
+
   const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
@@ -41,11 +44,36 @@ export const ProductComponent = (props: Props) => {
   const freeVariantForm = useForm({
     defaultValues: props.optionsDefault
   });
-  // const freeVariantValue = useWatch({ control: freeVariantForm.control });
+  const freeVariantValue = useWatch({ control: freeVariantForm.control });
 
   const price = useCallback(() => {
     return props.prices.find(prc => isSameArray(prc.combinations, Object.values(priceVariantValue).map(value => Number(value))))?.price ?? 0
   }, [priceVariantValue, props.prices]);
+
+  const addToCart = () => {
+    const currentCart: LocalCart[] = JSON.parse(localStorage.getItem("cart") ?? "[]");
+
+    const currentProductOnCart = currentCart.find((value) => {
+      return (value.id === props.product.id)
+        && isSameArray(value.priceVariants, Object.values(priceVariantValue).map(value => Number(value)))
+        && isSameArray(value.freeVariants, Object.values(freeVariantValue).map(value => Number(value)))
+    })
+
+    if (currentProductOnCart) {
+      const index = currentCart.indexOf(currentProductOnCart);
+      currentCart[index].quantity += 1;
+    } else {
+      currentCart.push({
+        id: props.product.id,
+        priceVariants: Object.values(priceVariantValue).map(value => Number(value)),
+        freeVariants: Object.values(freeVariantValue).map(value => Number(value)),
+        quantity: 1
+      });
+    }
+
+    localStorage.setItem("cart", JSON.stringify(currentCart));
+    reloadCartCount();
+  }
 
   return (
     <div className="bg-white">
@@ -107,6 +135,7 @@ export const ProductComponent = (props: Props) => {
 
             <div className="flex space-x-4 mb-6">
               <button
+                onClick={addToCart}
                 className="bg-indigo-600 flex gap-2 items-center text-white px-6 py-2 rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                   strokeWidth="1.5" stroke="currentColor" className="size-6">
