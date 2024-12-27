@@ -10,7 +10,7 @@ const Page: NextServerPage = async ({ searchParams }) => {
       <img src="https://cdn.pixabay.com/photo/2017/06/24/23/52/train-2439246_960_720.jpg" className="w-full h-96 object-cover mb-4" />
       <div className="flex flex-col md:flex-row w-full">
 
-        <div className="w-full md:w-3/12 p-8 md:p-4 md:pr-0 text-sm">
+        <div className="w-full md:w-3/12 p-8 pb-4 md:p-4 md:pr-0 text-sm">
           <Suspense fallback={<FilterSkeleton />}>
             <FilterSuspense />
           </Suspense>
