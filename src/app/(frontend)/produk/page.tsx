@@ -11,8 +11,6 @@ const Page: NextServerPage = async ({ searchParams }) => {
       <div className="flex flex-col md:flex-row w-full">
 
         <div className="w-full md:w-3/12 p-8 md:p-4 md:pr-0 text-sm">
-          <h2 className="font-bold text-base mb-4">Filter</h2>
-
           <Suspense fallback={<FilterSkeleton />}>
             <FilterSuspense />
           </Suspense>

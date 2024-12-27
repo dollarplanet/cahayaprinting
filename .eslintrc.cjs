@@ -5,7 +5,7 @@ module.exports = {
     project: ['./tsconfig.json'],
     tsconfigRootDir: __dirname,
   },
-  ignorePatterns: ['**/*.d.ts', '**/*.config.js', '**/*.config.ts'],
+  ignorePatterns: ['**/*.d.ts', '**/*.config.js', '**/*.config.ts', '/src/migrations/*.ts'],
   plugins: ['unused-imports'],
   rules: {
     'unused-imports/no-unused-imports': 'error',
