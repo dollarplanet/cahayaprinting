@@ -12,20 +12,22 @@ export const Prices: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, req: { payload } }) => {
+        const productId = (typeof doc.product === "number") ? doc.product : doc.product.id;
+
         const prices = await payload.find({
           select: {
             price: true
           },
           collection: "prices",
           depth: 0,
-          where: { product: { equals: doc.product } }
+          where: { product: { equals: productId } }
         });
 
         const pricesSorted = prices.docs.sort((a, b) => a.price - b.price);
 
         await payload.update({
           collection: "products",
-          id: doc.product,
+          id: productId,
           data: {
             price: {
               minPrice: pricesSorted[0].price,
