@@ -18,7 +18,7 @@ export const CheckoutSidebar = () => {
   };
 
   return (
-    <div onClick={() => setIsOpen(false)} className={`${isOpen ? "block" : "hidden"} w-full h-view fixed top-0 right-0 bg-black/30 backdrop-blur cursor-pointer`}>
+    <div onClick={() => setIsOpen(false)} className={`${isOpen ? "block" : "hidden"} z-[1000] w-full h-view fixed top-0 right-0 bg-black/30 backdrop-blur cursor-pointer`}>
       <div onClick={e => e.stopPropagation()} onWheel={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()} onTouchEnd={e => e.stopPropagation()} onTouchMove={e => e.stopPropagation()} className='fixed top-0 cursor-default right-0 w-3/4 sm:w-2/5 md:w-2/6 h-full bg-white shadow-lg shadow-black/70 overflow-hidden overflow-y-scroll'>
         <div className='flex justify-center py-2 px-4 pt-16 sm:pt-16 md:pt-16 lg:pt-20'>
           {cartCount > 0 && <button onClick={handleClearCart} className='flex items-center gap-1 text-white bg-red-600 hover:bg-red-800 transition px-4 py-1 rounded'>

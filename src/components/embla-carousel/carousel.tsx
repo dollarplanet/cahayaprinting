@@ -35,7 +35,9 @@ export const Carousel: React.FC<PropType> = (props) => {
           {slides.map((url ,index) => (
             <div className="embla__slide" key={index}>
               {/* <div className="embla__slide__number">{index + 1}</div> */}
-              <Image width={0} height={0} src={url} alt="product image" className='w-full h-auto object-cover' />
+              <div className='w-full aspect-square relative'>
+                <Image width={0} height={0} src={url} alt="product image" fill className='object-cover' />
+              </div>
             </div>
           ))}
         </div>
