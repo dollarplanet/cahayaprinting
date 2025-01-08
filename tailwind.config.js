@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 import typography from '@tailwindcss/typography';
+import scrollbar from 'tailwind-scrollbar';
 
 const config = {
   content: [
@@ -19,6 +20,7 @@ const config = {
   },
   plugins: [
     typography,
+    scrollbar,
   ],
 }
 
