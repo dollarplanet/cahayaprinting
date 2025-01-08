@@ -42,7 +42,7 @@ export const ProductComponent = (props: Props) => {
   const priceVariantValue = useWatch({ control: priceVariantForm.control });
 
   const freeVariantForm = useForm({
-    defaultValues: props.optionsDefault
+    defaultValues: props.freeOptionsDefault
   });
   const freeVariantValue = useWatch({ control: freeVariantForm.control });
 
@@ -63,11 +63,18 @@ export const ProductComponent = (props: Props) => {
       const index = currentCart.indexOf(currentProductOnCart);
       currentCart[index].quantity += 1;
     } else {
+      const freeVar = Object.values(freeVariantValue).map(value => Number(value))
+      const priceVar = Object.values(priceVariantValue).map(value => Number(value))
+
       currentCart.push({
         id: props.product.id,
-        priceVariants: Object.values(priceVariantValue).map(value => Number(value)),
-        freeVariants: Object.values(freeVariantValue).map(value => Number(value)),
-        quantity: 1
+        priceVariants: priceVar,
+        freeVariants: freeVar,
+        quantity: 1,
+        productName: props.product.name,
+        price: price(),
+        freeVariationsName: props.freeOptions.flatMap(val => val.options).filter((val) => freeVar.includes(val.value)).map((val) => val.label).join(", "),
+        priceVariationsName: props.options.flatMap(val => val.options).filter((val) => priceVar.includes(val.value)).map((val) => val.label).join(", "),
       });
     }
 

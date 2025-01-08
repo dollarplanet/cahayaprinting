@@ -10,4 +10,8 @@ declare type LocalCart = {
   priceVariants: number[];
   freeVariants: number[];
   quantity: number;
+  priceVariationsName: string;
+  freeVariationsName: string;
+  productName: string;
+  price: number;
 }
