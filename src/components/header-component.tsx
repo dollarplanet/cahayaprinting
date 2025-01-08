@@ -30,7 +30,7 @@ export const HeaderComponent = (props: Props) => {
   }
 
   return (
-    <header className={`${(pathname === "/produk") ? "fixed" : "sticky"} bg-white/50 backdrop-blur inset-x-0 top-0 z-10 w-full shadow-lg`}>
+    <header className={`${(pathname === "/produk") ? "fixed" : "sticky"} bg-white/50 backdrop-blur inset-x-0 top-0 z-20 w-full shadow-lg`}>
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-12 lg:h-16 gap-4">
           <div className="flex-shrink-0">

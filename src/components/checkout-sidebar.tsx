@@ -18,15 +18,9 @@ export const CheckoutSidebar = () => {
   };
 
   return (
-    <div onClick={() => setIsOpen(false)} className={`${isOpen ? "block" : "hidden"} z-[1000] w-full h-view fixed top-0 right-0 bg-black/30 backdrop-blur cursor-pointer`}>
-      <div onClick={e => e.stopPropagation()} onWheel={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()} onTouchEnd={e => e.stopPropagation()} onTouchMove={e => e.stopPropagation()} className='fixed top-0 cursor-default right-0 w-3/4 sm:w-2/5 md:w-2/6 h-full bg-white shadow-lg shadow-black/70 overflow-hidden overflow-y-scroll'>
+    <div onClick={() => setIsOpen(false)} className={`${isOpen ? "block" : "hidden"} w-full z-10 h-view fixed top-0 right-0 bg-black/30 backdrop-blur cursor-pointer`}>
+      <div onClick={e => e.stopPropagation()} onWheel={e => e.stopPropagation()} onTouchStart={e => e.stopPropagation()} onTouchEnd={e => e.stopPropagation()} onTouchMove={e => e.stopPropagation()} className='fixed top-0 cursor-default right-0 w-3/4 sm:w-2/5 md:w-2/6 h-full bg-white shadow-lg shadow-black/70 overflow-hidden overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300'>
         <div className='flex justify-center py-2 px-4 pt-16 sm:pt-16 md:pt-16 lg:pt-20'>
-          {cartCount > 0 && <button onClick={handleClearCart} className='flex items-center gap-1 text-white bg-red-600 hover:bg-red-800 transition px-4 py-1 rounded'>
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-            Bersihkan Keranjang
-          </button>}
 
           {(cartCount === 0) && <div className='flex flex-col items-center justify-center h-full text-center'>
             <svg xmlns="http://www.w3.org/2000/svg" className="h-40 w-40 text-gray-400 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -35,6 +29,15 @@ export const CheckoutSidebar = () => {
             <p className='text-gray-600'>Keranjang kosong</p>
           </div>}
         </div>
+
+        {(cartCount > 0) && <div onClick={handleClearCart} className="absolute w-full flex flex-col items-stretch bottom-0 right-0">
+          <div className=" bg-red-600 cursor-pointer hover:bg-red-500 flex items-center justify-center gap-4 text-left py-2 text-gray-200" >
+            Bersihkan Keranjang
+          </div>
+          <div className="bg-blue-600 cursor-pointer hover:bg-blue-500 flex items-center justify-center gap-4 text-left py-2 text-white" >
+            Lanjut Checkout
+          </div>
+        </div>}
       </div>
     </div>
   );

@@ -10,10 +10,10 @@ const config = {
   theme: {
     extend: {
       minHeight: {
-        "view": ["100vh", "100dvh"],
+        "view": ["100vh", "100dvh", "100%"],
       },
       height: {
-        "view": ["100vh", "100dvh"],
+        "view": ["100vh", "100dvh", "100%"],
       },
     },
   },
