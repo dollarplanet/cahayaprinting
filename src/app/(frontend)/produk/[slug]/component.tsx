@@ -10,7 +10,7 @@ import { useForm, useWatch } from "react-hook-form";
 import { Carousel } from "../../../../components/embla-carousel/carousel";
 import { FiveStars } from "../../../../components/five-stars";
 import { CategoryChip } from "@/components/category-chip";
-import { CartCountContext } from "../../cart-count-context";
+import { CartContext } from "../../cart-context";
 
 type OptionsType = {
   variant: number;
@@ -34,7 +34,7 @@ type Props = {
 const OPTIONS: EmblaOptionsType = {}
 
 export const ProductComponent = (props: Props) => {
-  const {reloadCartCount} = useContext(CartCountContext)!;
+  const {reloadCart} = useContext(CartContext)!;
 
   const priceVariantForm = useForm({
     defaultValues: props.optionsDefault
@@ -73,13 +73,14 @@ export const ProductComponent = (props: Props) => {
         quantity: 1,
         productName: props.product.name,
         price: price(),
+        image: ((props.product.images ?? [])[0] as Media).thumbnailURL,
         freeVariationsName: props.freeOptions.flatMap(val => val.options).filter((val) => freeVar.includes(val.value)).map((val) => val.label).join(", "),
         priceVariationsName: props.options.flatMap(val => val.options).filter((val) => priceVar.includes(val.value)).map((val) => val.label).join(", "),
       });
     }
 
     localStorage.setItem("cart", JSON.stringify(currentCart));
-    reloadCartCount();
+    reloadCart();
   }
 
   return (

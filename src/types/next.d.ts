@@ -14,4 +14,5 @@ declare type LocalCart = {
   freeVariationsName: string;
   productName: string;
   price: number;
+  image?: string | null;
 }

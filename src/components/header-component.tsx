@@ -1,6 +1,6 @@
 "use client";
 
-import { CartCountContext } from "@/app/(frontend)/cart-count-context";
+import { CartContext } from "@/app/(frontend)/cart-context";
 import { CheckoutSidebarContext } from "@/app/(frontend)/checkout-sidebar-context";
 import { Media, Profile } from "@/payload-types";
 import Image from "next/image";
@@ -16,9 +16,9 @@ export const HeaderComponent = (props: Props) => {
   const router = useRouter();
   const pathname = usePathname();
   const {isOpen, setIsOpen} = useContext(CheckoutSidebarContext)!;
-  const {cartCount, reloadCartCount} = useContext(CartCountContext)!;
+  const {cart: {cartCount}, reloadCart} = useContext(CartContext)!;
 
-  useEffect(() => reloadCartCount(), [reloadCartCount]);
+  useEffect(() => reloadCart(), [reloadCart]);
 
   const handleToggleSidebar = () => setIsOpen(!isOpen);
 
