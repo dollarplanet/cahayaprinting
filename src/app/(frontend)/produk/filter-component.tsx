@@ -123,6 +123,7 @@ export const FilterComponent = (props: Props) => {
                 className="w-full pl-10 px-4 py-2 rounded-md bg-white border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 type="number"
                 id="min"
+                min={0}
                 placeholder="Minimal"
               />
             </div>
@@ -135,6 +136,7 @@ export const FilterComponent = (props: Props) => {
                 className="w-full pl-10 px-4 py-2 rounded-md bg-white border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 type="number"
                 id="max"
+                min={0}
                 placeholder="Maksimal"
               />
             </div>

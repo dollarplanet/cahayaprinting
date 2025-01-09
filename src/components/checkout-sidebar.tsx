@@ -35,13 +35,25 @@ export const CheckoutSidebar = () => {
             {cartData.map((item, index) => (
               <div key={index} className="flex gap-2">
                 <div className="w-16 h-16 aspect-square relative rounded-md border border-gray-200">
-                  {item.image && <Image alt="image" width={0} height={0} src={item.image} fill className="object-cover"/>}
+                  {item.image && <Image alt="image" width={0} height={0} src={item.image} fill className="object-cover" />}
                 </div>
                 <div>
                   <p className="font-semibold">{item.productName}</p>
                   <p className="text-xs text-gray-500 font-medium">{item.priceVariationsName} {item.freeVariationsName ? `, ${item.freeVariationsName}` : ""}</p>
                   <p className="text-orange-700">{money(item.price * item.quantity)}</p>
-                  <p className="font-semibold">{item.quantity}</p>
+                  <div className="self-start relative mt-2 max-w-sm">
+                    <span className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <span className="text-gray-400">Quantity:</span>
+                    </span>
+                    <input
+                      className="w-full pl-20 max-w-36 p-2 rounded-md bg-white border border-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      type="number"
+                      id="max"
+                      min={0}
+                      defaultValue={item.quantity}
+                      placeholder="QTY"
+                    />
+                  </div>
                 </div>
               </div>
             ))}
